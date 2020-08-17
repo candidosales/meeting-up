@@ -58,11 +58,7 @@ Solution: Upgrade Rails to 4.2.8
 
 ### Specified 'postgresql' for database adapter, but the gem is not loaded. Add `gem 'pg'` to your Gemfile (and ensure its version is at the minimum required by ActiveRecord).
 
-Solution: Update the pg at Gemfile
-
-gem 'pg', '~> 0.20.0'
-
-and running
+Solution: Update the pg at Gemfile `gem 'pg', '~> 0.20.0'` and running:
 
 ```bash
 bundle _1.3.0_ update pg
@@ -70,11 +66,7 @@ bundle _1.3.0_ update pg
 
 ### NameError: uninitialized constant ActionController::Responder
 
-Solution: Update the pg at Gemfile
-
-gem 'responders', '~> 0.20.0'
-
-and running
+Solution: Update the responders at Gemfile `gem 'responders', '~> 0.20.0'` and running:
 
 ```bash
 bundle _1.3.0_ update responders
