@@ -66,7 +66,7 @@ bundle _1.3.0_ update pg
 
 ### NameError: uninitialized constant ActionController::Responder
 
-Solution: Update the responders at Gemfile `gem 'responders', '~> 0.20.0'` and running:
+Solution: Update the responders at Gemfile `gem 'responders', '~> 2.0.0'` and running:
 
 ```bash
 bundle _1.3.0_ update responders
