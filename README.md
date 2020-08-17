@@ -49,6 +49,11 @@ rake db:reset db:migrate
 rails s
 ```
 
+## Access
+
+- Admin: http://localhost:3000/admins/entrar
+- Users: http://localhost:3000/users/entrar
+
 ## Troubleshooting
 
 ### TypeError: ActiveSupport::Duration can't be coerced into Integer
