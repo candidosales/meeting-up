@@ -2,6 +2,7 @@
 
 ## Requirements
 
+- Ubuntu 20.04.1 LTS
 - Ruby 2.4.0
 - Rails 4.2.8
 - PostgreSQL
