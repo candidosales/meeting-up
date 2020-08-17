@@ -55,7 +55,7 @@ group :development do
   gem 'annotate'
   gem 'mailcatcher'
   gem 'quiet_assets'
-  gem 'thin', '~> 1.7.0'
+  gem 'thin', '~> 1.5.0'
   gem 'rails_layout'
 #  gem 'foreman'
 end
