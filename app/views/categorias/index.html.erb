@@ -1,0 +1,77 @@
+<%- model_class = Categoria -%>
+<% content_for :title_page do %>
+  <%=t '.title', :default => model_class.model_name.human.pluralize %>
+<% end %>
+
+<div class="row">
+  <div class="col-lg-12">
+    <%= link_to t('.new', :default => t("categorias.new.title")), new_categoria_path(), :class => "btn btn-success pull-right" %>
+
+  </div>
+</div>
+<br/>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%= form_tag categorias_path, :method => 'get', role: 'form', class: 'simple_form'  do %>
+      <div class="row">
+        <div class= "form-group col-md-6">
+           <%= label_tag(:por_descricao, "Descrição:", class: 'control-label') %>
+           <div>
+            <%= text_field_tag :por_descricao, params[:por_descricao],  class: 'form-control' %>
+           </div>
+        </div>
+
+        <div class='form-group col-md-6'>
+         <%= label_tag(:por_categoria_pai, "Categoria pai:", class: 'control-label') %>
+         <div>
+           <%= select_tag :por_categoria_pai, options_for_select(Categoria.all.order(descricao: :asc).map { |cat| [cat.descricao, cat.id] }, params[:por_categoria_pai]), prompt: 'Todos', class: 'form-control' %>
+         </div>
+        </div>
+
+      </div>
+
+      <div clas="row">
+        <%= submit_tag "Procurar", :nome => nil, :class => 'btn btn-primary' %>
+      </div>
+    <% end %>
+
+  </div>
+  <div class="panel-body">
+    <br/>
+    <%= page_entries_info @categorias %>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th><%= model_class.human_attribute_name(:descricao) %></th>
+            <th><%= model_class.human_attribute_name(:categoria_pai) %></th>
+            <th>Opções</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <% @categorias.each do |c| %>
+            <tr>
+              <td><%= link_to c.descricao, categoria_path(c) %></td>
+              <td>
+                <% unless c.categoria_pai.nil? %>
+                  <%= c.categoria_pai.descricao %>
+                <% end %>
+              </td>
+
+              <td>
+                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                            edit_categoria_path(c) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="panel-footer">
+    <%= paginate @categorias %> 
+  </div>
+</div>
+

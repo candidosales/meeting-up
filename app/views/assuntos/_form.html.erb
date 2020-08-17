@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+<%= simple_form_for [@forum, @assunto], html: {role: "form", :multipart => true} do |f| %>
+  <div class="panel-body">
+	  <%= f.error_notification %>
+
+	  <div class="row">
+	    <%= f.input :descricao, placeholder: 'Descrição', wrapper_html: {class: 'col-md-6'} %>
+	  </div>
+
+	  <div class="row">
+	    <%= f.input :detalhamento, placeholder: 'Detalhamento',input_html: { rows: 5 }, wrapper_html: {class: 'col-md-6'} %>
+	  </div>
+
+	  <div class="row">
+	    <%= f.input :prioridade, placeholder: 'Prioridade', wrapper_html: {class: 'col-md-6'} %>
+	  </div>
+
+	  <div class="row">	  
+        <%= f.association :categoria, label_method: :descricao, wrapper_html: {class: 'col-md-6'} %>
+      </div>  
+
+	  <% if current_user == @forum.coordenador%>
+		<div class="row">	  
+        	<%= f.association :forum_destino, collection: Forum.all,  label_method: :nome, wrapper_html: {class: 'col-md-6'} %>
+      	</div>  	  	
+	  <% end %>
+
+	  <div class="row">
+	    <%= f.input :file, label: "Anexo", as: :file, placeholder: 'Arquivo', wrapper_html: {class: 'col-md-6'}, wrapper: :vertical_file_input %>
+	  </div>
+
+	  
+  </div>
+  <div class="panel-footer">
+	    <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+	  <%= link_to t('.cancel', :default => t("helpers.links.cancel")), forum_assuntos_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+<% end %>
+</div>
+	

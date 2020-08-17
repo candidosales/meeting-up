@@ -1,0 +1,52 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+<%= simple_form_for @user, html: {role: "form"} do |f| %>
+  <div class="panel-body">
+    <%= f.error_notification %>
+
+    <div class="row">
+      <%= f.input :nome, :required => true, :autofocus => true, wrapper_html: {class: 'col-md-6'} %>
+      <%= f.input :email, :required => true, wrapper_html: {class: 'col-md-4'} %>
+
+      <%= f.input :matricula, :required => true, wrapper_html: {class: 'col-md-3'} %>
+    </div>
+
+    <% if !@user.convidado? and @user.persisted? %>
+      <div class="row">  
+        <%= f.input :password, label: 'Senha', :required => true, wrapper_html: {class: 'col-md-3'}%>
+        <%= f.input :password_confirmation, label: 'Confirmação de senha', :required => true, wrapper_html: {class: 'col-md-3'} %>
+      </div> 
+      
+      <div class="row">  
+        <%= f.association :cargo, label_method: :descricao, :required => true, wrapper_html: {class: 'col-md-4'} %>
+        
+        <%= f.association :setor, label_method: :descricao, :required => true, wrapper_html: {class: 'col-md-4'} %>
+
+      </div>
+
+      <div class="row"> 
+        <%= f.input :cpf, label: 'CPF', :required => true, wrapper_html: {class: 'col-md-3'}, mask: :cpf %>
+        <%= f.input :data_nascimento, as: :calendar, :required => true, wrapper_html: {class: 'col-md-4'} %>
+      </div>
+
+      <div class="row">  
+        <%= f.label :avatar %><br />
+        <%= f.file_field :avatar, wrapper_html: {class: 'col-md-4'} %>
+        <br /><br />
+      </div>  
+    <% end %>
+
+    <% if @user.convidado? %>    
+        <div class="row">
+          <%= f.input :qualificacao,as: :text, :required => false, wrapper_html: {class: 'col-md-6'} %>
+        </div>
+    <% end %>
+  </div>
+  
+  <div class="panel-footer">
+      <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), users_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+<% end %>
+</div>

@@ -1,0 +1,20 @@
+<h1>Lembrete automático de reunião</h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá, <strong><%= @convite.destinatario.nome %></strong>
+<br />
+
+A reunião do fórum <strong><%= @reuniao.forum['nome'] %></strong> <br />
+irá acontecer no dia <strong><%= @reuniao.data.strftime("%d/%m/%Y %H:%M") %></strong> e <br />
+você foi convidado com a função <strong><%= @convite.funcao.text %> </strong>. <br />
+Sua presença é importante, não deixe de comparecer. <br />
+
+<% if !@convite.destinatario.tipo.convidado? %>
+	Se você ainda não confirmou sua presença, faça isso através do link abaixo: <br />
+	<%= link_to "link", convite_url(@convite) %>.
+<% end %>
+
+<br />
+<br />
+<p>MeetingUP</p>

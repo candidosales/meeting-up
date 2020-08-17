@@ -1,0 +1,24 @@
+<% content_for :title_page do %>
+<%=t('.new', :default => t("users"))%>
+<%end%>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <div class="panel-body">
+    <%= f.error_notification %>
+
+    <div class="row">
+      <%= f.input :nome, :required => true, wrapper_html: {class: 'col-md-6'} %>
+      <%= f.input :email, :required => true, :autofocus => false, wrapper_html: {class: 'col-md-4'} %>
+      <%= f.input :matricula, :required => false, :autofocus => true, wrapper_html: {class: 'col-md-4'} %>
+
+    </div>
+
+  </div>
+  <div class="panel-footer">
+      <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+  </div>
+<% end %>
+</div>

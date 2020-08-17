@@ -1,0 +1,5 @@
+<p>Bem vindo ao <strong>MeetingUP</strong> <%= @resource.nome %>!</p>
+
+<p>Para ter acesso ao sistema de controle de reuniões e encaminhamentos, confirme seu cadastro através do link abaixo:</p>
+
+<p><%= link_to 'Confirmar conta', confirmation_url(@resource, :confirmation_token => @token) %></p>

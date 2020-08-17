@@ -1,0 +1,47 @@
+<% content_for :class_container do %>
+col-md-6 col-md-offset-3
+<% end %>
+<div class="login-panel panel panel-default">
+  <div class="panel-heading">
+      <h3 class="panel-title">Confirmar cadastro de usuário</h3>
+  </div>
+   <div class="panel-body">
+    <%= simple_form_for(resource, :as => resource_name, :url => update_user_confirmation_path, :html => {:method => 'patch'}, :id => 'activation-form') do |f| %>
+
+      <%= f.error_notification %>
+
+      <fieldset>
+        <legend>Ativar o usuário<% if resource.nome %> <%= resource.nome %><% end %></legend>
+        <div class="row">
+          <%= f.input :email, disabled: true, hint: 'Não pode mudar seu email.', wrapper_html: {class: 'col-md-12'} %>
+          <%= f.input :matricula, disabled: true, hint: 'Não pode mudar sua matrícula.', wrapper_html: {class: 'col-md-12'} %>
+          <%= f.association :cargo, label_method: :descricao, :required => false , wrapper_html: {class: 'col-md-12'}%>
+          <%= f.association :setor, label_method: :descricao, :required => false, wrapper_html: {class: 'col-md-12'} %>
+        </div>
+        <div class="row">
+          <%= f.input :cpf, :autofocus => true, :required => true , wrapper_html: {class: 'col-md-6'}, mask: :cpf  %>
+          <%= f.input :data_nascimento,  as: :calendar , wrapper_html: {class: 'col-md-6'} %>
+
+        </div>
+          <% if @requires_password %>
+          <div class="row">
+            <%= f.input :password, :required => true, label: 'Senha', wrapper_html: {class: 'col-md-6'}%>
+            <%= f.input :password_confirmation, label: 'Confirmar senha', :required => false, wrapper_html: {class: 'col-md-6'} %>
+          </div>
+          <% end %>  
+        
+        <div class="row">
+          <%= f.input :avatar, wrapper_html: {class: 'col-md-12'} %>
+        </div>
+        
+        <%= hidden_field_tag :confirmation_token, @confirmation_token %>
+        
+        <div class="row col-md-offset-3">
+          <div class="form-actions">
+            <%= f.button :submit, "Confirmar", class: 'btn btn-primary col-md-6' %>
+          </div>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

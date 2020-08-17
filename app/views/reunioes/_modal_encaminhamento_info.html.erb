@@ -1,0 +1,53 @@
+<br/>
+<h3 id="assuntos-<%=encaminhamento.id%>" class="page-header">Assunto</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="blockquote-box blockquote clearfix">
+          <div class="square pull-left">
+              <img src="http://placehold.it/60/8e44ad/FFF&amp;text=<%=encaminhamento.assunto.descricao[0].upcase %>" alt="" class="">
+          </div>
+          <h4><%=encaminhamento.assunto.descricao %> (<%= encaminhamento.assunto.categoria.try(:descricao) %>)</h4>
+          <p><%=encaminhamento.assunto.detalhamento %></p>
+      </div>
+    </div>          
+</div>
+
+<h3 id="acompanhamento-<%=encaminhamento.id%>" class="page-header">Acompanhamento</h3>
+<div class="row">
+  <div class="form-group col-md-4">
+      <label class="control-label">Status</label>
+      <div>
+        <p class="form-control-static"><%= encaminhamento.esta_atrasado? ? 'Atrasado' : encaminhamento.status_text %></p>
+      </div>
+  </div>
+
+  <div class="form-group col-md-4">
+      <label class="control-label">Previsto</label>
+      <div>
+        <p class="form-control-static"><%= encaminhamento.previsao.nil? ? "" : t(l encaminhamento.previsao) %></p>
+      </div>
+  </div>
+
+  <div class="form-group col-md-4">
+      <label class="control-label">Data início</label>
+      <div>
+        <p class="form-control-static"><%= encaminhamento.data_inicio.nil? ? "" : t(l encaminhamento.data_inicio) %></p>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-4">
+      <label class="control-label">Data término</label>
+      <div>
+        <p class="form-control-static"><%= encaminhamento.data_conclusao.nil? ? "" : t(l encaminhamento.data_conclusao) %></p>
+      </div>
+  </div>
+
+  <div class="form-group col-md-4">
+      <label class="control-label">Homologado</label>
+      <div>
+        <p class="form-control-static"><%= encaminhamento.data_homologacao.nil? ? "" : encaminhamento.homologado ? 'Sim' : 'Não' %></p>
+      </div>
+  </div>
+</div>

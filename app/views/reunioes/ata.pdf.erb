@@ -1,0 +1,150 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<div>
+  <row>
+    <%= wicked_pdf_image_tag("logo_cliente.png", height: '50', style:"margin-right: 10px; margin-top: 5px; margin-left: 10px", class: "col-md-4 left") %>
+  </row>
+</div>
+
+<h2 style="text-align: center">
+  Ata - <%= @reuniao.titulo %>
+</h2>
+
+<table>
+  <tr>
+    <td style="width: 20%">Nº</td>
+    <td><%= @forum.sigla%> - <%= @reuniao.codigo %></td>
+  </tr>
+  <tr>
+    <td>Tipo</td>
+    <td><%= @reuniao.tipo_text %></td>
+  </tr>
+  <tr>
+    <td>Data</td>
+    <td><%= l (@reuniao.data.to_date) %></td>
+  </tr>
+  <tr>
+    <td>Hora</td>
+    <td><%= l(@reuniao.inicio) rescue nil %> - <%= l(@reuniao.fim) rescue nil %></td>
+  </tr>
+  <tr>
+    <td>Local</td>
+     <td><%= @reuniao.local %></td>
+  </tr>
+
+</table>
+
+<h3>Pessoas envolvidas</h3>
+
+<table>
+  <tr>
+    <td style="width: 20%">Coordenador</td>
+    <td>
+      <% unless @reuniao.convite_coordenador.nil? %>
+        <%= @reuniao.convite_coordenador.destinatario %>
+      <% end %>  
+    </td>
+  </tr>
+  <tr>
+    <td>Redator</td>
+    <td>
+      <% unless @reuniao.convite_redator.nil? %>
+        <%= @reuniao.convite_redator.destinatario %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>Controlador</td>
+    <td>
+      <% unless @reuniao.convite_controlador.nil? %>
+        <%= @reuniao.convite_controlador.destinatario %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>Participantes</td>
+    <td>
+      <ol>
+        <%= content_tag_for :li, @reuniao.convites_participantes_presentes do |participante| %>
+          <%= participante.destinatario.nome %>
+        <% end %>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td>Convidados</td>
+    <td>
+      <ol>
+        <%= content_tag_for :li, @reuniao.convites_convidados_presentes do |convidado| %>
+          <%= convidado.destinatario.nome %>
+        <% end %>
+      </ol>
+    </td>
+  </tr>
+</table>
+
+<h3>Pauta</h3>
+
+<table>
+  <tr>
+    <th>Código</th>
+    <th>Pauta</th>
+    <th>Descrição</th>
+  </tr>
+  <%= content_tag_for :tr, @reuniao.assuntos do |assunto| %>
+    <td>
+      <%= assunto.id %>
+    </td>
+    <td>
+      <%= assunto %><br> <strong>Proponente:</strong> <%= assunto.usuario %>
+    </td>
+    <td>
+      <ul>
+        <%= content_tag_for :li, assunto.notas do |nota| %>
+          <%= nota %>
+        <% end %>
+      </ul>
+    </td>
+  <% end %>
+</table>
+
+<h3>Encaminhamentos</h3>
+
+<table>
+  <tr>
+    <th>Assunto</th>
+    <th>Código</th>
+    <th>Descrição</th>
+    <th>Responsável</th>
+    <th>Prazo</th>
+    <th>Status</th>
+
+  </tr>
+  <%= content_tag_for :tr, @reuniao.encaminhamentos do |encaminhamento| %>
+    <td><%= encaminhamento.codigo %></td>
+    <td><%= encaminhamento.assunto.id %></td>
+    <td><%= encaminhamento %></td>
+    <td><%= encaminhamento.users.map(&:to_s).to_sentence %></td>
+    <td><%= l(encaminhamento.previsao) rescue nil %></td>
+    <td><%= encaminhamento.status_text %></td>
+  <% end %>
+</table>
+
+<h3> </h3>
+<table>
+  <tr>
+    <th>Próxima Reunião</th>
+    <th>Pauta</th>
+    <th>Local</th>
+  </tr>
+ 
+    <td>
+      <% unless @reuniao.evento.data_proxima_reuniao(@reuniao).nil? %>
+        <%= @reuniao.evento.data_proxima_reuniao(@reuniao) %>
+      <% end %>  
+    </td>
+    <td> A definir </td>
+    <td><%= @reuniao.local %></td>
+ 
+</table>
+
+

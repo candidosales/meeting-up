@@ -1,0 +1,248 @@
+<% content_for :title_page do %>
+<%=t('.show', :default => t("foruns.show.title"))%>
+<!-- Verificar se possui alguma reunião pra ser inicializada pra mostrar o botão -->
+<%end%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <% if !admin_signed_in? %>
+      <p> <strong> <%= @forum.nome %> </strong></p>
+      <p><strong>Coordenador:</strong>&nbsp; <%= @forum.coordenador.nome %>&nbsp;&nbsp;<%= image_tag @forum.coordenador.avatar.url(:mini, false), size: "35x35", alt: @forum.coordenador.nome, title: @forum.coordenador.nome, class: "avatar" %>
+    <% end %>   
+  </div>
+  <div class="panel-body">
+  <% if admin_signed_in? %>
+
+    <p>
+      <strong>Sigla:</strong>
+      <%= @forum.sigla %>
+    </p>
+
+    <p>
+      <strong>Nome:</strong>
+      <%= @forum.nome %>
+    </p>
+
+    <p>
+      <strong>Descrição:</strong>
+      <%= @forum.descricao %>
+    </p>
+
+    <p>
+      <strong>Coordenador:</strong>
+      <%= @forum.coordenador.try :nome %>
+    </p>
+
+    <p>
+      <strong>Hierarquia:</strong>
+      <%= @forum.pai.try :nome %>
+    </p>
+
+    <% unless @forum.forunsFilhos.empty? %>
+      <h3>Fóruns Relacionados</h3>
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Sigla</th>
+              <th>Nome</th>
+              <th>Descricão</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @forum.forunsFilhos.each do |forum_filho| %>
+              <tr>
+                <td><%= forum_filho.sigla %></td>
+                <td><%= forum_filho.nome %></td>
+                <td><%= forum_filho.descricao %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    <% end %>
+
+    <h3>Participantes</h3>
+
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Nome</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @forum.participantes.each do |participante| %>
+          <tr>
+            <td><%= participante.nome %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+   <% else %>
+   <div class="row">
+     <!-- Reuniões -->
+      <div class="col-lg-6">
+        <div class="panel panel-success">
+        <div class="panel-heading">
+            <!--<i class="fa fa-bell fa-fw"></i> Notifications Panel-->
+            Reuniões Recentes
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="list-group">
+              <% Reuniao.where("forum_id = ?", @forum.id).order(id: :desc).without_status(:cancelada).limit(10).all.each do |r| %>
+                <%= link_to forum_reuniao_path(@forum,r), :class => 'list-group-item' do%>
+                  <%= r.data.strftime('%d/%m/%Y') %>
+                  <span class="pull-right text-muted small"><em><%= r.status_text %></em>
+                  </span>
+                <% end %>
+              <% end %>
+            </div>
+            <!-- /.list-group -->
+            <%= link_to "Visualizar todas as reuniões", forum_reunioes_path(@forum), :class => 'btn btn-default btn-block' %>
+        </div>
+        <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>    
+
+     <!-- Assuntos -->
+      <div class="col-lg-6">
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+              <!--<i class="fa fa-bell fa-fw"></i> Notifications Panel-->
+              Assuntos Recentes
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+              <div class="list-group">
+                <% Assunto.interno(@forum).order(id: :desc).limit(10).all.each do |a| %>
+                  <%= link_to forum_assunto_path(@forum,a), :class => 'list-group-item' do %>
+                      <%= a.descricao %>
+                      <span class="pull-right text-muted small"><em><%= a.prioridade_text %></em>
+                      </span>
+                    <% end %>
+                <% end %>
+              </div>
+              <!-- /.list-group -->
+              <%= link_to "Visualizar todos os assuntos", forum_assuntos_path(@forum, :origem_assunto => 'interno'), :class => 'btn btn-default btn-block' %>
+          </div>
+          <!-- /.panel-body -->
+          </div>
+          <!-- /.panel -->
+        </div>
+     </div> 
+
+
+   <div class="row">
+     <!-- Encaminhamentos -->
+      <div class="col-lg-6">
+        <div class="panel panel-danger">
+        <div class="panel-heading">
+            Encaminhamentos Recentes
+        </div>        <div class="panel-body">
+            <div class="list-group">
+              <% Encaminhamento.permitido(@forum, current_user).order(id: :desc).limit(10).all.each do |e| %>
+                <%= link_to forum_encaminhamento_path(@forum,e), :class => 'list-group-item' do %>
+                  <%= e.descricao %>
+                  <span class="pull-right text-muted small"><em><%= e.status_text %></em>
+                  </span>
+              <% end %>
+              <% end %>
+            </div>
+            <%= link_to "Visualizar todos os encaminhamentos", forum_encaminhamentos_path(@forum), :class => 'btn btn-default btn-block' %>
+        </div>
+        </div>
+      </div>    
+
+      <div class="col-lg-6">
+        <div class="panel panel-info">
+        <div class="panel-heading">
+            <!--<i class="fa fa-bell fa-fw"></i> Notifications Panel-->
+            Participantes
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="list-group">
+              <% @forum.participantes.each do |p| %>
+              <%= link_to '#', :class => 'list-group-item' do%>
+                  <%= p.nome %>
+                  <span class="pull-right"><%= image_tag p.avatar.url(:mini), size: "30x30", alt: p.nome, title: p.nome, class: "avatar" %>
+                  </span>
+              <% end %>
+              <% end %>
+            </div>
+            <!-- /.list-group -->
+            <% if current_user == @forum.coordenador %>
+              <%= link_to "Adicionar/Remover", edit_forum_path(@forum), :class => 'btn btn-default btn-block' %>
+            <% end %>
+        </div>
+        <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>
+     </div> 
+
+    <!-- Assuntos externos -->
+      <div class="col-lg-6">
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+              <!--<i class="fa fa-bell fa-fw"></i> Notifications Panel-->
+              Assuntos Indicados
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+              <div class="list-group">
+                <% Assunto.externo(@forum).order(id: :desc).limit(10).all.each do |a| %>
+                  <%= link_to forum_assunto_path(@forum,a), :class => 'list-group-item' do %>
+                      <%= a.descricao %>
+                      <span class="pull-right text-muted small"><em><%= a.prioridade_text %></em>
+                      </span>
+                    <% end %>
+                <% end %>
+              </div>
+              <!-- /.list-group -->
+              <%= link_to "Visualizar todos os assuntos", forum_assuntos_path(@forum, :origem_assunto => 'externo'), :class => 'btn btn-default btn-block' %>
+          </div>
+          <!-- /.panel-body -->
+          </div>
+          <!-- /.panel -->
+        </div>
+
+    <!-- Assuntos externos -->
+      <div class="col-lg-6">
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+              <!--<i class="fa fa-bell fa-fw"></i> Notifications Panel-->
+              Assuntos Encaminhados
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+              <div class="list-group">
+                <% Assunto.encaminhados(@forum).order(id: :desc).limit(10).all.each do |a| %>
+                  <%= link_to forum_assunto_path(@forum,a), :class => 'list-group-item' do %>
+                      <%= a.descricao %>
+                      <span class="pull-right text-muted small"><em><%= a.prioridade_text %></em>
+                      </span>
+                    <% end %>
+                <% end %>
+              </div>
+              <!-- /.list-group -->
+              <%= link_to "Visualizar todos os assuntos", forum_assuntos_path(@forum, :origem_assunto => 'encaminhado'), :class => 'btn btn-default btn-block' %>
+          </div>
+          <!-- /.panel-body -->
+          </div>
+          <!-- /.panel -->
+        </div>
+
+     </div>  
+
+   <% end %> 
+  </div>  
+  <div class="panel-footer">
+    <% if admin_signed_in? %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_forum_path(@forum), :class => 'btn btn-primary' %>
+      <%= link_to t('.back', :default => t("helpers.links.back")), foruns_path, :class => 'btn btn-outline btn-default' %>
+    <% end %>
+  </div>
+</div>

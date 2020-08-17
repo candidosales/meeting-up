@@ -1,0 +1,30 @@
+<!-- Modal -->
+<div class="modal fade" id="adiar-reuniao-<%=reuniao.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="panel panel-warning">
+		        <div class="panel-heading">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		            <h4 class="modal-title" id="myModalLabel">Mudar data reunião</h4>
+		        </div>
+				<%= simple_form_for reuniao, url: adiar_forum_reuniao_path(@forum, reuniao), html: {role: "form"} do |f| %>
+				  <div class="panel-body">
+					  <div class="row">
+					  	<%= f.error_notification %>
+
+					  	<%=f.input :data_antiga, :as => :hidden, :input_html => { :value => reuniao.data } %>
+
+					    <%= f.input :data, label: 'Nova Data', as: :string, wrapper_html: {class: 'col-md-5'}, mask: :datetime %>
+					  </div>
+
+				  </div>
+				  <div class="panel-footer">
+					  <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' , data: {disable_with: 'Mudando data reunião...'} %>
+
+					  <%= link_to t('.cancel', :default => t("helpers.links.cancel")), '#', :class => 'btn btn-outline btn-default' , data: {dismiss: 'modal'} %>
+				  </div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

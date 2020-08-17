@@ -1,0 +1,36 @@
+<% content_for :class_container do %>
+col-md-6 col-md-offset-3
+<% end %>
+<div class="login-panel panel panel-default">
+  <div class="panel-heading">
+      <h3 class="panel-title">Reenviar instruções de confirmação</h3>
+  </div>
+   <div class="panel-body">
+    <%= simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+      <% if !resource.errors.has_key?(:login) %>
+        <div class="alert alert-danger">
+          <p>Por favor, verifique os erros antes de continuar:</p>
+          <ul>
+            <% if resource.errors.has_key?(:confirmation_token) %>
+              <li>Sua conta já está ativa ou o periodo de confirmação expirou. Caso ainda não tenha confirmado, solicite uma nova confrmação abaixo</li>
+            <% else %>
+              <% resource.errors.full_messages.map { |m| %>
+                <li><%= m %> </li>
+              <% } %>
+            <% end %>
+          </ul>
+        </div>
+      <% else  %>
+        <%= f.error_notification %>
+      <% end %>
+
+      <div class="row">  
+        <%= f.input :login, :label => 'E-mail/Matrícula', :required => true, :autofocus => true, wrapper_html: {class: 'col-md-12'} %>
+      </div>  
+
+      <div class="form-actions">
+        <%= f.button :submit, "Reenviar instruções de confirmação", class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>    

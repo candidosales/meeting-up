@@ -1,0 +1,54 @@
+<%- model_class = Convite -%>
+<% content_for :title_page do %>
+  <%=t '.title', :default => model_class.model_name.human.pluralize %>
+<% end %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Fórum</th>
+            <th>Reunião</th>
+            <th>Data</th>
+            <th>Função</th>
+            <th>Status</th>
+            <th>Opções</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <% @convites.each do |convite| %>
+            <tr>
+              <td><%= link_to convite.id, convite_path(convite) %></td>
+              <td><%= convite.reuniao.forum.sigla %></td>
+              <td><%= convite.reuniao.titulo %></td>
+              <td><%= convite.reuniao.data.strftime('%d/%m/%Y %H:%M') %></td>
+              <td><%= convite.funcao.text %></td>
+              <td><%= convite.status.text %></td>
+              <td>
+                 <% if convite.status.pendente? %>
+                    <%= link_to "Confirmar", confirmar_convite_path(convite), :method=> :patch %> |
+                    <%= link_to "Recusar", '#', data:{toggle: 'modal', target: "#recusar-convite-#{convite.id}"}%>
+                 <% end %>   
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="panel-footer"><!-- paginação aqui... --></div>
+</div>
+
+<% @convites.each do |convite| %>
+  <%= render 'new_recusar', convite: convite %>
+<% end %>
+

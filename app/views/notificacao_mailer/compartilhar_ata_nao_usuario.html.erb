@@ -1,0 +1,12 @@
+<h1>Ata da reuniao <%= @reuniao.titulo %> </h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá, <strong> <%= @email %> </strong>
+<br />
+
+Segue em anexo a ata da reunião <strong><%= @reuniao.titulo %></strong>, enviado por <%= @usuario.nome %>. <br />
+
+<br />
+<br />
+<p>Esse email foi enviado através do sistema MeetingUP</p>

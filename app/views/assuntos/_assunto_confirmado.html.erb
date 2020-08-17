@@ -1,0 +1,7 @@
+<tr>
+  <td><%= check_box_tag 'reuniao[assunto_ids][]', assunto.id, true %></td>
+  <td><%= assunto.descricao %></td>
+  <td><%= assunto.detalhamento %></td>
+  <td><%= assunto.categoria.try :descricao %></td>
+  <td><%= assunto.prioridade_text %></td>
+</tr>

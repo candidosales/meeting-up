@@ -1,0 +1,65 @@
+<div class="modal fade modal-encaminhamento-add-nota-enc" id="add-nota-homologar-encaminhamento-<%=encaminhamento.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-encaminhamento-id="<%=encaminhamento.id%>">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel"><%= encaminhamento.codigo %>&nbsp;-&nbsp;<%= encaminhamento.descricao %>&nbsp;&nbsp;&nbsp;<span><% encaminhamento.users.each do |u| %>
+                    <%= image_tag u.avatar.url(:mini), size: "30x30", alt: u.nome, title: u.nome, class: "avatar" %>
+                  <% end %>
+</span></h4>
+        </div>
+        <div class="panel-body">
+          <div id="homologacao-encaminhamento-<%=encaminhamento.id %>-messages"></div>
+          <% if encaminhamento.status.concluido? %>
+            <div class="row col-md-2">
+              <h4>Homologar?</h4>
+            </div>
+
+            <% enc_homologado = encaminhamento.data_homologacao.nil? ? true : encaminhamento.homologado ? true : false %>
+            <%= simple_form_for encaminhamento, url: homologar_forum_encaminhamento_path(@forum, encaminhamento), html: {role: "form"}, data: {remote: true} do |f| %>
+              <div id="homologar-enc-<%=encaminhamento.id%>" class="btn-group btn-toggle" data-toggle="buttons">
+                <label class="btn btn-lg <%= enc_homologado ? 'btn-primary active' : 'btn-default' %>">
+                  <input type="radio" id="encaminhamento_homologado_0" name="encaminhamento[homologado]" value="true" <%= enc_homologado ? 'checked' : '' %> >SIM
+                </label>
+                <label class="btn btn-lg <%= !enc_homologado ? 'btn-primary active' : 'btn-default' %>">
+                  <input type="radio" id="encaminhamento_homologado_1" name="encaminhamento[homologado]" value="false" <%= !enc_homologado ? 'checked' : '' %> >NÃO
+                </label>
+              </div>
+              &nbsp;&nbsp;<%= f.button :submit, 'OK', class: 'btn-success' %>
+            <% end %>
+            <input type="hidden" id="status-homologado-enc-<%= encaminhamento.id %>" name="valor-homologacao" value=""/>
+            <hr>
+          <% end %>
+
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="nav nav-tabs">
+                <li id="tab-encaminhamento-info-encaminhamento-<%= encaminhamento.id %>" class="active">
+                  <%= link_to 'Informações', "#tab-info-encaminhamento-#{encaminhamento.id}", data: { toggle: 'tab' } %>
+                </li>
+                <li id="tab-encaminhamento-notas-encaminhamentos-<%= encaminhamento.id %>">
+                  <%= link_to 'Notas', "#tab-notas-encaminhamentos-#{encaminhamento.id}", data: { toggle: 'tab' } %>
+                </li>
+                <li id="tab-encaminhamento-novos-encaminhamentos-<%= encaminhamento.id %>" class="<%= !enc_homologado && encaminhamento.status.concluido? ? '' : 'hide' %>">
+                  <%= link_to 'Novos encaminhamentos', "#tab-novos-encaminhamentos-#{encaminhamento.id}", data: { toggle: 'tab' } %>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div id="tab-info-encaminhamento-<%= encaminhamento.id %>" class="tab-pane active">
+                    <%= render 'modal_encaminhamento_info', encaminhamento: encaminhamento %>
+                </div>
+                <div id="tab-notas-encaminhamentos-<%= encaminhamento.id %>" class="tab-pane">
+                    <%= render 'modal_encaminhamento_notas', encaminhamento: encaminhamento %>
+                </div>
+                <div id="tab-novos-encaminhamentos-<%= encaminhamento.id %>" class="tab-pane">
+                    <%= render 'modal_encaminhamento_encaminhamentos', encaminhamento: encaminhamento %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

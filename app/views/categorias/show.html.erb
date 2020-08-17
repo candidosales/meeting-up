@@ -1,0 +1,25 @@
+<% content_for :title_page do %>
+<%=t('.show', :default => t("categorias.show.title"))%>
+<%end%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+  <div class="panel-body">
+	<p>
+	  <strong>Descrição:</strong>
+	  <%= @categoria.descricao %>
+	</p>
+
+    <p>
+      <strong>Categoria pai:</strong>
+      <%unless @categoria.categoria_pai.nil? %>
+        <%= @categoria.categoria_pai.descricao %>
+      <% end %>
+    </p>
+
+  </div>	
+  <div class="panel-footer">
+	  <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_categoria_path(@categoria), :class => 'btn btn-primary' %>
+	  <%= link_to t('.back', :default => t("helpers.links.back")), categorias_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+</div>

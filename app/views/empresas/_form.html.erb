@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+<%= simple_form_for @empresa, html: {role: "form", :multipart => true } do |f| %>
+  <div class="panel-body">
+    <%= f.error_notification %>
+
+    <div class="row">
+      <%= f.input :nome, placeholder: 'Nome', wrapper_html: {class: 'col-md-6'} %>
+    </div>
+
+    <div class="row">
+      <%= f.input :cnpj, placeholder: 'CNPJ', mask: :cnpj, wrapper_html: {class: 'col-md-6'} %>
+    </div>
+
+    <div class="row"> 
+      <div class="form-group file optional empresa_logo col-md-6">      
+    	  <%= f.label :logo %>
+        <%= f.file_field :logo %> 
+      </div>
+    </div> 
+
+  </div>
+  <div class="panel-footer">
+      <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), empresas_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+<% end %>
+</div>

@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: foruns
+#
+#  id             :integer          not null, primary key
+#  nome           :string(255)
+#  coordenador_id :integer
+#  created_at     :datetime
+#  updated_at     :datetime
+#  sigla          :string(255)
+#  descricao      :text
+#  pai_id         :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  coordenador_id: 
+
+two:
+  nome: MyString
+  coordenador_id: 

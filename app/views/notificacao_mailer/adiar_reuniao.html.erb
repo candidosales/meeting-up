@@ -1,0 +1,15 @@
+<h1>Notificação de adiamento de reunião</h1>
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá, <strong><%= @convite.destinatario.nome %></strong>
+<br />
+
+A reunião do fórum <strong><%= @reuniao.forum['nome'] %></strong> <br />
+anteriormente agendada para o dia <strong><%= @reuniao.data_antiga.strftime("%d/%m/%Y %H:%M") %></strong> <br />
+foi adiada para o dia <strong><%= @reuniao.data.strftime("%d/%m/%Y %H:%M") %></strong> <br />
+Para maiores detalhes, acesse sua dashboard.
+
+<br />
+<br />
+<p>MeetingUP</p>

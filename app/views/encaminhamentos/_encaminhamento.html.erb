@@ -1,0 +1,14 @@
+<%= div_for(encaminhamento, class: 'row') do %>
+  <div class="col-md-12">
+    <blockquote>
+      <%= encaminhamento.descricao %>
+      <%= link_to 'Excluir', [encaminhamento.forum, encaminhamento],
+            class: 'btn btn-xs btn-danger pull-right',
+            data: { method: :delete, remote: true } %>
+      <footer>
+        Usuários: <%= encaminhamento.users.map(&:email).to_sentence %>
+        - Prazo: <%= encaminhamento.previsao.nil? ? "" : t(l  encaminhamento.previsao) %>
+      </footer>
+    </blockquote>
+  </div>
+<% end %>

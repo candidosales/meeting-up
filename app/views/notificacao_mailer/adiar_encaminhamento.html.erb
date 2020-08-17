@@ -1,0 +1,15 @@
+<h1>Notificação de adiamento de encaminhamento</h1>
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá, <strong><%= @participante['nome'] %></strong>
+<br />
+
+O encaminhamento número <strong> <%= @encaminhamento.codigo %></strong> do fórum <strong><%= @encaminhamento.forum['nome'] %></strong> <br />
+anteriormente agendada para o dia <strong><%= l @encaminhamento.previsao_antiga %></strong> <br />
+foi adiada para o dia <strong><%= l @encaminhamento.previsao %></strong> <br />
+Para maiores detalhes, acesse sua dashboard.
+
+<br />
+<br />
+<p>MeetingUP</p>

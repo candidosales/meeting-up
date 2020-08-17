@@ -1,0 +1,41 @@
+<div class="modal fade modal-add-<%= tipo_usuario %>-forum" id="add-<%= tipo_usuario %>-forum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Adicionar novo <%= tipo_usuario %></h4>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+
+<%= simple_form_for User.new(tipo: 'N'), html: {role: "form"}, data: {remote: true} do |f| %>
+  
+  <%= f.hidden_field :tipo %>
+  <input type="hidden" name="tipo_usuario" id="tipo_usuario" value="<%= tipo_usuario %>" />
+  <div id="create-<%= tipo_usuario %>_-messages" class="alert alert-danger" style="display: none">
+    <p>Por favor, verifique os erros antes de continuar:</p>
+    <ul></ul>
+  </div>
+
+  <div class="row col-md-6">
+      <%= f.input :nome, :required => true, :autofocus => true, input_html: { class: "usuario_nome_"}, wrapper_html: {class: 'col-md-12'} %>
+      <%= f.input :email, :required => true, input_html: { class: "usuario_email_"}, wrapper_html: {class: 'col-md-12'} %>
+      <%= f.input :matricula, :required => true, input_html: { class: "usuario_matricula_"}, wrapper_html: {class: 'col-md-12'} %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.button :submit, "Adicionar #{tipo_usuario}", class: 'btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

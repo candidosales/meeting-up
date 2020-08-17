@@ -1,0 +1,166 @@
+<%- model_class = Reuniao -%>
+<% content_for :title_page do %>
+  <%=t 'Reuniões' %>
+<% end %>
+
+<% if current_user == @forum.coordenador %>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="span1 fa pull-right">  
+          <%= link_to t('.cancel', :default => t("eventos.cancel.title")), cancelar_forum_eventos_path(@forum), :class => "btn btn-danger " %>
+      </div>
+      <div class="span1 fa pull-right">
+          <%= link_to "Editar Agendamentos", forum_eventos_path(@forum), :class => "btn btn-default" %>
+      </div>
+      <div class="span1 fa pull-right">
+          <%= link_to t('.new', :default => t("eventos.new.title")), new_forum_evento_path(@forum), :class => "btn btn-success" %>
+      </div>
+    </div>
+  <div>
+  <br /> <br />
+<% end%>
+
+<div class="panel panel-default">
+  
+  <div class="panel-heading">
+    <%= form_tag forum_reunioes_path, :method => 'get', role: 'form', class: 'simple_form' do %>
+      <div class="row">
+        <div class= "form-group col-md-2">
+           <%= label_tag(:data_inicio, "De:", class: 'control-label') %>
+            <div>
+             <%= text_field_tag :data_inicio, params[:data_inicio], placeholder: 'dd/mm/aaaa', class: 'form-control', data: {mask: '99/99/9999' } %>
+            </div>
+        </div>
+
+        <div class= "form-group col-md-2">
+          <%= label_tag(:data_fim, "a:", class: 'control-label') %>
+          <div>
+           <%= text_field_tag :data_fim, params[:data_fim], placeholder: 'dd/mm/aaaa',
+            class: 'form-control', data: {mask: '99/99/9999' } %>
+          </div>
+        </div>
+
+        <div class= "form-group col-md-2">
+         <%= label_tag(:with_status, "Status:", class: 'control-label') %>
+         <div>
+           <%= select_tag :with_status, options_for_select(Reuniao.status.options, params[:with_status]), prompt: 'Todos', class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div clas="row">        
+        <%= submit_tag "Procurar", :nome => nil, :class => 'btn btn-primary' %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <div class="panel-body">
+    <br />
+    <%= page_entries_info @reunioes %>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th> Código </th>
+            <th> Data </th>
+            <th> Título </th>
+            <th> Coordenador </th>
+            <th> Redator </th>
+            <th> Controlador </th>
+            <th> Status </th>
+            <th> Opções </th>
+            
+          </tr>
+        </thead>
+        
+        <tbody>
+          <% @reunioes.each do |reuniao| %>
+
+            <tr>
+              <td><%= reuniao.codigo %></td>
+
+              <td>
+                <%= link_to t('.show', :default => t(l reuniao.data)),
+                            forum_reuniao_path(@forum, reuniao) %>
+              </td>
+              <td><%= reuniao.titulo %></td>
+
+
+              <% [:coordenador, :redator, :controlador].each do |funcao| %>
+               <td>
+                  <% if reuniao.convites_with_funcao(funcao).last.present? %>
+                    <%= reuniao.convites_with_funcao(funcao).last.destinatario.try :nome %>
+                  <% end %>
+              </td>   
+             <% end %>
+
+              <td>
+                  <%= reuniao.status_text %>
+              </td>
+              
+              <% if current_user == @forum.coordenador %>
+                  <% if reuniao.agendada? %>
+                      <td>
+                         <%= link_to "Mudar data", '#', data:{toggle: 'modal', target: "#adiar-reuniao-#{reuniao.id}"}%>
+
+    		                |  <%= link_to t('.confirmar', :default => t("helpers.links.confirmar")),
+                                    confirmar_forum_reuniao_path(@forum, reuniao) %>
+
+                        | <%= link_to t('.cancel', :default => t("helpers.links.cancel")), '#', data:{toggle: 'modal', target: "#cancelar-reuniao-#{reuniao.id}"}%>
+
+                      </td>
+                    
+                  <% end %>
+
+                  <% if reuniao.confirmada? %>
+                      <td>
+                         <%= link_to "Add/Remover assuntos",
+                                    add_remove_assuntos_forum_reuniao_path(@forum, reuniao) %>
+
+                        | <%= link_to t('.adiar', :default => t("helpers.links.adiar")), '#', data:{toggle: 'modal', target: "#adiar-reuniao-#{reuniao.id}"}%>
+
+                        | <%= link_to t('.cancel', :default => t("helpers.links.cancel")), '#', data:{toggle: 'modal', target: "#cancelar-reuniao-#{reuniao.id}"}%>
+
+                      </td>
+                    
+                  <% end %>
+
+                  <% if reuniao.cancelada? %>
+                      <td>
+                         <%= link_to "Reativar", '#', data:{toggle: 'modal', target: "#reativar-reuniao-#{reuniao.id}"}%>
+                      </td>
+                  <% end %>
+
+                  <% if reuniao.realizada? %>
+                      <td>
+                         <%= link_to "Visualizar ata", ata_forum_reuniao_path(@forum, reuniao) %>
+                      </td>
+                  <% end %>      
+              <% else %>  
+                  <% if reuniao.realizada? %>
+                      <td>
+                         <%= link_to "Visualizar ata", ata_forum_reuniao_path(@forum, reuniao) %>
+                      </td>
+                  <% else %>
+                      <td></td>
+                  <% end %>      
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <%= paginate @reunioes %>
+  </div>
+
+</div>
+
+<% @reunioes.each do |reuniao| %>
+  <%= render 'buscar_cancelar', reuniao: reuniao %>
+  <%= render 'buscar_reativar', reuniao: reuniao %>
+  <%= render 'adiar', reuniao: reuniao %>
+<% end %>

@@ -1,0 +1,26 @@
+<%= simple_form_for Nota.new(notable: encaminhamento), url: notas_url, html: {role: "form"}, data: {remote: true} do |f| %>
+  <div id="create-nota_Encaminhamento_<%= encaminhamento.id %>-messages" class="alert alert-danger" style="display: none">
+    <p>Por favor, verifique os erros antes de continuar:</p>
+    <ul></ul>
+  </div>
+  <div class="row">
+    <%= f.hidden_field :notable_id %>
+    <%= f.hidden_field :notable_type %>
+    <%= f.input :descricao, as: :text, label: false, placeholder: 'Adicionar nota',
+          input_html: { class: "autoresize nota_descricao_Encaminhamento_#{encaminhamento.id}" },
+          wrapper_html: {class: 'col-md-8', style: 'margin-top: 10px'}  %>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.button :submit, 'Adicionar nota', class: 'btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+<br>
+
+<div class="row">
+  <div id="notas-Encaminhamento_<%= encaminhamento.id %>" class="col-md-12">
+    <%= render encaminhamento.notas %>
+  </div>
+</div>

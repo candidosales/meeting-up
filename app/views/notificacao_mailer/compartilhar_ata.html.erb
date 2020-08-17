@@ -1,0 +1,13 @@
+<h1>Ata da reuniao <%= @reuniao.titulo %> </h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá,
+<br />
+
+Segue link para download da ata via sistema: <%= link_to 'Download', ata_forum_reuniao_url(@reuniao.forum, @reuniao) %>
+<br />
+
+<br />
+<br />
+<p>MeetingUP</p>

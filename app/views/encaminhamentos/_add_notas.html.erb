@@ -1,0 +1,29 @@
+<div class="modal fade" id="add-nota-encaminhamento-<%=encaminhamento.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel"> Adicionar/Remover observações </h4>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <%= link_to 'Observações', "#tab-notas-#{encaminhamento.id}", data: { toggle: 'tab' } %>
+                </li>
+                
+              </ul>
+              <div class="tab-content">
+                <div id="tab-notas-encaminhamento-<%= encaminhamento.id %>" class="tab-pane active">
+                  <%= render 'modal_encaminhamento_notas', encaminhamento: encaminhamento %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

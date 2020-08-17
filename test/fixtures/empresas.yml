@@ -1,0 +1,24 @@
+# == Schema Information
+#
+# Table name: empresas
+#
+#  id                :integer          not null, primary key
+#  nome              :string(255)
+#  cnpj              :string(255)
+#  created_at        :datetime
+#  updated_at        :datetime
+#  logo_file_name    :string(255)
+#  logo_content_type :string(255)
+#  logo_file_size    :integer
+#  logo_updated_at   :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  cnpj: MyString
+
+two:
+  nome: MyString
+  cnpj: MyString

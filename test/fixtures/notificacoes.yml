@@ -1,0 +1,22 @@
+# == Schema Information
+#
+# Table name: notificacoes
+#
+#  id         :integer          not null, primary key
+#  descricao  :string(255)
+#  status     :boolean
+#  tipo       :string(255)
+#  sender_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: MyString
+  tipo: MyString
+
+two:
+  status: MyString
+  tipo: MyString

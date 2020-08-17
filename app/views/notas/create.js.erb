@@ -1,0 +1,9 @@
+<% div_id = "create-nota_#{params['nota']['notable_type']}_#{params['nota']['notable_id']}" %>
+<% if @nota.errors.empty? %>
+	$("#<%= div_id %>-messages").hide()
+	$('.nota_descricao_<%= @nota.notable_param %>').val('').blur()
+	$('#notas-<%= @nota.notable_param %>').prepend('<%= j render(@nota) %>');
+<% else %>
+	$("#<%= div_id %>-messages").show()
+	$('#<%= div_id %>-messages ul').html('<%= j(@nota.errors.full_messages.map{|e| content_tag(:li, e) }.join('').html_safe ) %>')
+<% end %>

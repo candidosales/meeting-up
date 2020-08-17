@@ -1,0 +1,32 @@
+$font-family-base: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+@import "fonts-google-roboto";
+@import "bootstrap";
+@import "bootstrap-datepicker";
+@import "font-awesome";
+@import "select2";
+@import "layout";
+@import "blockquote-box";
+@import "textarea";
+@import "avatar";
+/*
+ *= require_self
+ */
+
+.list-group-item, .panel-body p.users {
+     padding: 15px 15px;
+}
+
+.list-group-item img {
+    margin-top: -5px
+}
+
+.select2-container {
+  border: 0 !important;
+  padding: 0 !important;
+  box-shadow: 0 !important;
+}
+
+.checkbox label {
+   	display: block;
+}

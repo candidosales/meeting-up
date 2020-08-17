@@ -1,0 +1,19 @@
+<%= div_for(assunto, class: 'row') do %>
+  <div class="col-md-12">
+    <blockquote>
+      <%= assunto.descricao %>
+      <%= link_to 'Excluir', [assunto.forum, assunto],
+            class: 'btn btn-xs btn-danger pull-right',
+            data: { method: :delete, remote: true } %>
+      <footer>
+        <p><%= assunto.detalhamento %></p>
+        <p>
+        <% if assunto.forum != assunto.forum_destino && !assunto.forum_destino.nil? %>
+          Fórum: <%= assunto.forum_destino.nome %>&nbsp;&nbsp;&nbsp;
+        <% end %>
+        Categoria:<%= assunto.categoria.nil? ? "" : assunto.categoria.descricao %>&nbsp;&nbsp;&nbsp;Prioridade:<%= assunto.prioridade.nil? ? "" : assunto.prioridade_text %>  
+        </p>
+      </footer>
+    </blockquote>
+  </div>
+<% end %>

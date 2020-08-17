@@ -1,0 +1,14 @@
+<%= div_for(nota, class: 'row') do %>
+  <div class="col-md-12">
+    <blockquote>
+      <%= nota.descricao %>
+      <% if nota.pode_excluir && current_user == nota.usuario %>
+      <%= link_to 'Excluir', nota_url(nota), class: 'btn btn-xs btn-danger pull-right',
+                             data: { method: :delete, remote: true } %>
+      <% end %>
+      <footer>
+        por <%= nota.usuario.nome %> em <%= l(nota.created_at) %>
+      </footer>
+    </blockquote>
+  </div>
+<% end %>

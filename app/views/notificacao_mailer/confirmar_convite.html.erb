@@ -1,0 +1,16 @@
+<h1>Notificação de confirmação de convite</h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+<hr>
+
+<br />
+Olá, <strong><%= @coordenador.nome %></strong>
+<br />
+
+O convite para a reunião <strong><%= @convite.reuniao.titulo %></strong> <br />
+enviado ao usuário <strong><%= @convite.destinatario.nome %></strong> foi confirmado. <br />
+Para maiores detalhes, acesse sua dashboard.
+
+<br />
+<br />
+<hr>
+<p>MeetingUP</p>

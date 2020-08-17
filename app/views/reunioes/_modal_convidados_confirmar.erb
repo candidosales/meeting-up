@@ -1,0 +1,44 @@
+<div class="modal fade modal-convidado-confirmar-reuniao" id="add-convidado-confirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Adicionar novo convidado</h4>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+
+<%= simple_form_for User.new(tipo: 'C'), html: {role: "form"}, data: {remote: true} do |f| %>
+  
+  <%= f.hidden_field :tipo %>
+  <input type="hidden" name="tipo_usuario" id="tipo_usuario" value="convidado" />
+  <div id="create-convidado_-messages" class="alert alert-danger" style="display: none">
+    <p>Por favor, verifique os erros antes de continuar:</p>
+    <ul></ul>
+  </div>
+
+  <div class="row col-md-6">
+      <%= f.input :nome, :required => true, :autofocus => true, input_html: { class: "usuario_nome_"}, wrapper_html: {class: 'col-md-12'} %>
+      <%= f.input :email, :required => true, input_html: { class: "usuario_email_"}, wrapper_html: {class: 'col-md-12'} %>
+  </div>
+
+  <div class="row col-md-6">
+    <%= f.input :qualificacao,as: :text, :required => false, input_html: { class: "usuario_qualificacao_"}, wrapper_html: {class: 'col-md-8'} %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.button :submit, 'Adicionar convidado', class: 'btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: compartilhamentos
+#
+#  id         :integer          not null, primary key
+#  reuniao_id :integer
+#  email      :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reuniao_id: 
+  email: MyString
+
+two:
+  reuniao_id: 
+  email: MyString

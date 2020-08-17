@@ -1,0 +1,258 @@
+<% content_for :title_page do %>
+  <%=t('.show', :default => t("reunioes.show.title"))%>
+  <% if @reuniao.coordenador == current_user ||  @reuniao.redator == current_user %>
+    <div class="fa pull-right">
+        <% if !@reuniao.iniciada? %>
+          <%= link_to iniciar_forum_reuniao_path(@forum, @reuniao), :class => "btn btn-success" do%>
+              <i class="fa fa-play"></i>
+              <span><strong>Iniciar reunião</strong></span>            
+          <% end %>
+        <% else %>
+          <a class="btn btn-danger" data-toggle="modal" href='#modal-button'><i class="fa fa-stop"></i><span><strong>Encerrar reunião</strong></span></a>
+        <% end %>
+    </div>
+  <% end %> 
+<%end%>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2><%=@forum.nome%> - <%=@forum.sigla%></h2>
+    <h2><%=@reuniao.titulo%>
+      <% if @reuniao.iniciada? %>
+        <small><%= @reuniao.inicio.strftime('%d/%m/%Y %H:%M') %></small>
+      <% end %>
+    </h2>
+  </div>
+
+  <div class="panel-body">
+   <div class="row">
+     <!-- Reuniões -->
+      <div class="col-lg-4">
+        <div class="panel panel-success">
+        <div class="panel-heading">
+            <i class="fa fa-user"></i>
+            <span><strong>PAPÉIS</strong></span> 
+        </div>
+        <!-- /.panel-heading -->
+       <div class="panel-body">
+          <% if @reuniao.iniciada? %>
+            <p class="users">
+              <span class="pull-right">
+                <strong>Presente?</strong>
+              </span>
+            </p>
+          <% end %>
+          
+          <% [:coordenador, :redator, :controlador].each do |funcao| %>
+            <div class="form-group">
+              <label class="control-label"><%= funcao.to_s.humanize %></label>
+              <% if @reuniao.convites_with_funcao(funcao).last.present? %>
+                <div>
+                  <p class="form-control-static">
+                    <span>
+                        <%= @reuniao.convites_with_funcao(funcao).last.destinatario.first_name %>
+                        <%= image_tag @reuniao.convites_with_funcao(funcao).last.destinatario.avatar.url(:mini), size: "30x30", alt: @reuniao.convites_with_funcao(funcao).last.destinatario.first_name, title: @reuniao.convites_with_funcao(funcao).last.destinatario.first_name, class: "avatar" %>
+                    </span>
+                    <% if @reuniao.iniciada? %>
+                      <span class="pull-right btn-group btn-toggle" data-toggle="buttons" style="padding-right: 20px">
+                        <%= link_to 'S', @reuniao.redator == current_user || @reuniao.coordenador == current_user ? presente_convite_path(@reuniao.convites_with_funcao(funcao).last) : '#', method: 'patch', remote: true, :class => "btn btn-sm #{@reuniao.convites_with_funcao(funcao).last.status.confirmado? ? 'btn-primary active' : 'btn-default' }" %>
+                        <%= link_to 'N', @reuniao.redator == current_user || @reuniao.coordenador == current_user ? ausente_convite_path(@reuniao.convites_with_funcao(funcao).last) : '#', method: 'patch', remote: true, :class => "btn btn-sm #{!@reuniao.convites_with_funcao(funcao).last.status.confirmado? ? 'btn-primary active' : 'btn-default' }" %>
+                      </span>
+                    <% end %>
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>
+
+      <div class="col-lg-4">
+        <div class="panel panel-warning">
+        <div class="panel-heading">
+            <i class="fa fa-group"></i>
+            <span><strong>PARTICIPANTES</strong></span>            
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+          <% if @reuniao.iniciada? && @reuniao.convites_participantes.any? %>
+            <p class="users">
+              <span class="pull-right">
+                <strong>Presente?</strong>
+              </span>
+            </p>
+          <% end %>
+          <% @reuniao.convites_participantes.each do |convite| %>
+            <div class="form-group">
+              <label class="control-label">Nome</label>
+              <div>
+                <p class="form-control-static">
+                  <span>
+                      <%= convite.destinatario.first_name %>
+                      <%= image_tag convite.destinatario.avatar.url(:mini), size: "30x30", alt: convite.destinatario.first_name, title: convite.destinatario.first_name, class: "avatar" %>
+                  </span>
+                  <% if @reuniao.iniciada? %>
+                    <span class="pull-right btn-group btn-toggle" data-toggle="buttons" style="padding-right: 20px">
+                      <%= link_to 'S', presente_convite_path(convite), method: 'patch', remote: true, :class => "btn btn-sm #{convite.status.confirmado? ? 'btn-primary active' : 'btn-default' }" %>
+                      <%= link_to 'N', ausente_convite_path(convite), method: 'patch', remote: true, :class => "btn btn-sm #{!convite.status.confirmado? ? 'btn-primary active' : 'btn-default' }" %>
+                    </span>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+        <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>    
+
+      <div class="col-lg-4">
+        <div class="panel panel-info">
+        <div class="panel-heading">
+            <i class="fa fa-group"></i>
+            <span><strong>CONVIDADOS</strong></span>            
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+          <% if @reuniao.iniciada? && @reuniao.convites_convidados.any? %>
+            <p class="users">
+              <span class="pull-right">
+                <strong>Presente?</strong>
+              </span>
+            </p>
+          <% end %>
+          <% @reuniao.convites_convidados.each do |convite| %>
+            <div class="form-group">
+              <label class="control-label">Nome</label>
+              <div>
+                <p class="form-control-static">
+                  <span>
+                      <%= convite.destinatario.first_name %>
+                      <%= image_tag convite.destinatario.avatar.url(:mini), size: "30x30", alt: convite.destinatario.first_name, title: convite.destinatario.first_name, class: "avatar" %>
+                  </span>
+                  <% if @reuniao.iniciada? %>
+                    <span class="pull-right btn-group btn-toggle" data-toggle="buttons" style="padding-right: 20px">
+                      <%= link_to 'S', presente_convite_path(convite), method: 'patch', remote: true, :class => "btn btn-sm #{convite.status.confirmado? ? 'btn-primary active' : 'btn-default' }" %>
+                      <%= link_to 'N', ausente_convite_path(convite), method: 'patch', remote: true, :class => "btn btn-sm #{!convite.status.confirmado? ? 'btn-primary active' : 'btn-default' }" %>
+                    </span>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+        <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>    
+    </div>
+
+    <% if @reuniao.encaminhamentos_pendentes.any? %>
+      <h3 id="encaminhamentos" class="page-header">Pendências</h3>
+        <div class="row">
+        <% @reuniao.encaminhamentos_pendentes.each do |e| %>
+          <%if e.status == 'concluido'
+              css_status = 'info'
+              if e.data_homologacao.present?
+                if e.homologado?
+                  color_back = '4CAE4C'  
+                else
+                  color_back = 'C0C0C0'
+                end
+              else
+                color_back = '46B8DA'
+              end
+
+            elsif e.esta_atrasado?
+              css_status = 'danger'
+              color_back = 'D43F3A'
+
+            elsif e.status == 'andamento'
+              css_status = 'warning'
+              color_back = 'EEA236'
+            end
+            %>                   
+          <div class="col-md-6">
+            <%= link_to ('#'), data:{toggle: "#{@reuniao.iniciada? && @reuniao.redator == current_user ? 'modal' : ''}", target: "#{@reuniao.iniciada? && @reuniao.redator == current_user ? '#add-nota-homologar-encaminhamento-' : ''}#{e.id}"} do %>
+              <div id="blockquote-enc-<%=e.id%>" class="blockquote-box blockquote-<%= css_status %> clearfix">
+                  <div class="square pull-left">
+                      <img src="http://placehold.it/60/<%= color_back %>/FFF&amp;text=<%=e.descricao[0].upcase %>" alt="" class="desc-enc" data-text="<%=e.descricao[0].upcase %>">
+                  </div>
+                  <h4><%=e.descricao %> </h4>
+                  <p>
+                    <% e.users.each do |u| %>
+                      <%= image_tag u.avatar.url(:mini), size: "30x30", alt: u.nome, title: u.nome, class: "avatar" %>
+                    <% end %>
+                  </p>
+              </div>
+            <% end %>
+          </div>          
+        <% end %>
+      </div>
+      <% if @reuniao.iniciada? && @reuniao.redator == current_user %>
+        <% @reuniao.encaminhamentos_pendentes.each do |e| %>
+            <%= render 'modal_encaminhamento', encaminhamento: e %>
+        <% end %>
+      <% end %>
+    <% end %>    
+    
+    <h3 id="assuntos" class="page-header">Assuntos</h3>
+      <div class="row">
+        <%# 4CAE4C cor 1 #%>
+        <%# 5CB85C cor 2 #%>
+      <% @reuniao.assuntos.each do |a| %>
+        <div class="col-md-6">
+          <%= link_to ('#'), data:{toggle: "#{@reuniao.iniciada? && @reuniao.redator == current_user ? 'modal' : ''}", target: "#{@reuniao.iniciada? && @reuniao.redator == current_user ? '#add-nota-encaminhamento-' : ''}#{a.id}"} do %>
+            <div id="blockquote-assunto-<%=a.id%>" class="blockquote-box blockquote clearfix">
+                <div class="square pull-left">
+                    <% color_back = a.notas.any? ? '4CAE4C' : '8e44ad' %>
+                    <img src="http://placehold.it/60/<%= color_back %>/FFF&amp;text=<%=a.descricao[0].upcase %>" alt="" class="" data-text="<%=a.descricao[0].upcase %>">
+                </div>
+                <h4><%=a.descricao %> (<%= !a.categoria.nil? ? a.categoria.descricao : '' %>)</h4>
+                <p><%=a.detalhamento %></p>
+            </div>
+        <% end %>
+        </div>          
+      <% end %>
+    </div>
+    
+    <% if @reuniao.iniciada? && @reuniao.redator == current_user %>
+      <% @reuniao.assuntos.each do |a| %>
+          <%= render 'modal_assunto', assunto: a %>
+      <% end %>
+    <% end %>
+
+
+    <!-- modal > alert -->
+      <div class="modal fade" id="modal-button">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h2 class="text-center">ATENÇÃO</h1>
+            </div>
+            <div class="modal-body">
+              <h3 class="text-center">Você tem certeza que deseja encerrar esta reunião?</h2>
+              <hr>
+              <div class="text-center">
+                <%= link_to encerrar_forum_reuniao_path(@forum, @reuniao), :class => "btn btn-lg btn-block btn-success" do%>
+                    SIM
+                <% end %>
+                <button type="button" data-dismiss="modal" class="btn btn-lg btn-block btn-danger">NÃO</button>
+              </div>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+  </div>  
+  <div class="panel-footer">
+  </div>
+</div>
+

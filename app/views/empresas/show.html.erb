@@ -1,0 +1,28 @@
+<% content_for :title_page do %>
+<%=t('.show', :default => t("empresas.show.title"))%>
+<%end%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+  <div class="panel-body">
+	<p>
+	  <strong>Nome:</strong>
+	  <%= @empresa.nome %>
+	</p>
+
+	<p>
+	  <strong>CNPJ:</strong>
+	  <%= @empresa.cnpj %>
+	</p>
+
+	<p>
+	  <strong>Logo:</strong>
+	  <%= image_tag @empresa.logo.url(:thumb) %>
+	</p>
+
+  </div>	
+  <div class="panel-footer">
+	  <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_empresa_path(@empresa), :class => 'btn btn-primary' %>
+	  <%= link_to t('.back', :default => t("helpers.links.back")), empresas_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<% content_for :title_page do %>
+<%=t('.show', :default => "Convite")%>
+<%end%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+  <div class="panel-body">
+
+	<p>
+	  <strong>Data de envio:</strong>
+	  <%= @convite.reuniao.data.strftime('%d/%m/%Y %H:%M') %>
+	</p>
+
+	<p>
+	  <strong>Fórum:</strong>
+	  <%= @convite.reuniao.forum.sigla %>
+	</p>
+
+	<p>
+	  <strong>Reunião:</strong>
+	  <%= @convite.reuniao.titulo %>
+	</p>
+
+	<p>
+	  <strong>Data da reunião:</strong>
+	  <%= @convite.reuniao.data.strftime('%d/%m/%Y %H:%M') %>
+	</p>
+
+	<p>
+	  <strong>Função:</strong>
+	  <%= @convite.funcao.text %>
+	</p>
+
+	<p>
+	  <strong>Mensagem para o convidado:</strong>
+	  <%= @convite.mensagem %>
+	</p>
+
+	<p>
+	  <strong>Motivo da recusa:</strong>
+	  <%= @convite.motivo_recusa %>
+	</p>
+
+	<p>
+	  <strong>Data da recusa:</strong>
+	  <% if !@convite.data_recusa.nil? %>
+	  	<%= @convite.data_recusa.strftime('%d/%m/%Y %H:%M') %>
+	  <% end %>	
+	</p>
+
+	<p>
+	  <strong>Status:</strong>
+	  <%= @convite.status.text %>
+	</p>
+
+  </div>	
+  <div class="panel-footer">
+  	  <% if @convite.status.pendente? %>
+        <%= link_to "Confirmar", confirmar_convite_path(@convite), :method=> :patch, :class => "btn btn-outline btn-success" %>
+        <%= link_to "Recusar", '#', data:{toggle: 'modal', target: "#recusar-convite-#{@convite.id}"}, :class => "btn btn-outline btn-danger"%>
+      <% end %>
+	  <%= link_to t('.back', :default => t("helpers.links.back")), convites_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+</div>
+
+<%= render 'new_recusar', convite: @convite %>

@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: periodicidades
+#
+#  id                :integer          not null, primary key
+#  repeticao         :string(255)
+#  repete_cada       :integer
+#  frequencia        :text
+#  inicio            :date
+#  evento_id         :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  frequencia_mensal :string(255)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  repeticao: MyString
+  repete_cada: 1
+  frequencia: MyString
+  inicio: 2014-03-31
+  evento_id: 
+
+two:
+  repeticao: MyString
+  repete_cada: 1
+  frequencia: MyString
+  inicio: 2014-03-31
+  evento_id: 

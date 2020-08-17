@@ -1,0 +1,6 @@
+textarea.autoresize {
+  height: 30px;
+  &.open {
+    height: 90px;
+  }
+}

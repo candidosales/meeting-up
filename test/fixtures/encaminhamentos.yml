@@ -1,0 +1,31 @@
+# == Schema Information
+#
+# Table name: encaminhamentos
+#
+#  id                  :integer          not null, primary key
+#  status              :string(255)
+#  descricao           :string(255)
+#  assunto_id          :integer
+#  created_at          :datetime
+#  updated_at          :datetime
+#  forum_id            :integer
+#  reuniao_id          :integer
+#  codigo              :string(255)
+#  previsao            :date
+#  data_conclusao      :datetime
+#  pai_id              :integer
+#  data_inicio         :datetime
+#  homologado          :boolean          default(FALSE)
+#  data_homologacao    :datetime
+#  previsao_antiga     :date
+#  previsao_solicitada :date
+#  emailed             :boolean          default(FALSE)
+#
+
+one:
+  status: MyString
+  descricao: MyString
+
+two:
+  status: MyString
+  descricao: MyString

@@ -1,0 +1,16 @@
+<h1>Notificação de novo encaminhamento</h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá, <strong><%= @destinatario.nome %></strong>
+<br />
+
+Um novo encaminhamento do fórum <strong><%= @encaminhamento.forum['nome'] %></strong> <br />
+foi criado e relacionado a você. O prazo de conclusão solicitado para este encaminhamento é: <br />
+<strong><%= @encaminhamento.previsao.strftime("%d/%m/%Y %H:%M") %></strong> <br />
+Para maiores detalhes, acesse sua conta e verifique no menu a opção "Encaminhamentos".
+
+
+<br />
+<br />
+<p>MeetingUP</p>

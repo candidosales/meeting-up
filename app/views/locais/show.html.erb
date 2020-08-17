@@ -1,0 +1,19 @@
+<% content_for :title_page do %>
+<%=t('.show', :default => t("locais.show.title"))%>
+<%end%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+  <div class="panel-body">
+
+	<p>
+	  <strong>Descrição:</strong>
+	  <%= @local.descricao %>
+	</p>
+
+  </div>	
+  <div class="panel-footer">
+	  <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_local_path(@local), :class => 'btn btn-primary' %>
+	  <%= link_to t('.back', :default => t("helpers.links.back")), locais_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+</div>

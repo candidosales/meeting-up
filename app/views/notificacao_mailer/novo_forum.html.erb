@@ -1,0 +1,13 @@
+<h1>Notificação de participação de novo fórum</h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá, <strong><%= @participante.nome %></strong>
+<br />
+
+a partir de agora você participará do <strong><%= @forum['nome'] %></strong>. <br />
+Para maiores detalhes, acesse sua dashboard.
+
+<br />
+<br />
+<p>MeetingUP</p>

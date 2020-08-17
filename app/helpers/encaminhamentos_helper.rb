@@ -1,0 +1,2 @@
+module EncaminhamentosHelper
+end

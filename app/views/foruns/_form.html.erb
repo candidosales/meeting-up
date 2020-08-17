@@ -1,0 +1,47 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+<%= simple_form_for @forum, html: {role: "form"} do |f| %>
+  <div class="panel-body">
+      <%= f.error_notification %>
+
+      <% if admin_signed_in? %>
+        <div class="row">
+          <%= f.input :sigla, as: :string, placeholder: 'Sigla', wrapper_html: {class: 'col-md-2'} %>
+          <%= f.input :nome, as: :string, placeholder: 'Nome', wrapper_html: {class: 'col-md-5'} %>
+        </div>
+        <div class="row">
+        	<%= f.input :descricao, as: :text, label: "Descrição", placeholder: 'Descrição', wrapper_html: {class: 'col-md-7'} %>
+        </div>
+
+        <div class="row">  
+          <%= f.association :coordenador, collection: buscar_coordenadores, label_method: :nome, include_blank: true, wrapper_html: {class: 'col-md-3'} %>
+
+          <%= link_to '+', '#', data:{toggle: "modal", target: "#add-coordenador-forum"}, class: 'btn btn-default btn-success', style: 'margin-top: 25px' %>
+        </div>
+        
+        <div class="row">  
+          <%= f.association :pai, label: 'Hierarquia', collection: buscar_pai(@forum),  label_method: :nome, wrapper_html: {class: 'col-md-4'} %>
+        </div>
+      <% end %>
+      
+      <%# if @forum.persisted? && (current_user ==  @forum.coordenador && !admin_signed_in?) #%>
+        <div class="row">
+        	<%= f.association :participantes, collection: recupera_participantes(@forum),  label_method: :nome, wrapper_html: {class: 'col-md-7'}, input_html: {class: 'select2-users'} %>
+
+          <%= link_to '+', '#', data:{toggle: "modal", target: "#add-participante-forum"}, class: 'btn btn-default btn-success', style: 'margin-top: 25px' %>
+        </div>	
+      <%# end #%>
+      <br />
+      <br />
+  </div>
+  <div class="panel-footer">
+      <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), @forum.persisted? && (current_user ==  @forum.coordenador && !admin_signed_in?) ? forum_path(@forum) : foruns_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+<% end %>
+</div>
+
+<%= render 'modal_usuario_forum', tipo_usuario: 'coordenador' %>
+<%= render 'modal_usuario_forum',  tipo_usuario: 'participante' %>

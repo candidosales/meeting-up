@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= content_for?(:title) ? yield(:title) : "Meetingup" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Meetingup" %>">
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <%= image_tag("logo_cliente.png", height: '50', style:"margin-right: 10px; margin-top: 5px; margin-left: 10px") %>
+
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%= link_to icon(:home, 'Meeting up'), foruns_path, class: 'navbar-brand navbar-brand-centered' %>
+      </div>
+      <div class="navbar-collapse collapse">
+        <%= render 'layouts/navbar' %>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 main">
+          <h1 class="page-header"><%= content_for?(:title_page) ? yield(:title_page) : "" %></h1>
+          <%= render 'layouts/messages' %>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  </body>
+</html>

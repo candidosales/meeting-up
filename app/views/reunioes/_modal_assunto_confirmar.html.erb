@@ -1,0 +1,46 @@
+<div class="modal fade modal-assunto-add-assunto-reuniao-confirmada" id="add-assunto-confirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Adicionar novo assunto</h4>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+
+<%= simple_form_for [@forum, Assunto.new(forum_destino: @forum)], html: {role: "form"}, data: {remote: true} do |f| %>
+  
+  <%= f.hidden_field :forum_destino_id %>
+
+  <div id="create-assunto_Assunto_-messages" class="alert alert-danger" style="display: none">
+    <p>Por favor, verifique os erros antes de continuar:</p>
+    <ul></ul>
+  </div>
+
+  <div class="row col-md-6">
+    <%= f.input :descricao, placeholder: 'Descrição', input_html: { class: "assunto_descricao_Assunto_"}, wrapper_html: {class: 'col-md-12'}%>
+
+    <%= f.input :detalhamento, placeholder: 'Detalhamento', input_html: { class: "autoresize assunto_detalhamento_Assunto_" }, wrapper_html: {class: 'col-md-12'} %>
+  </div>
+
+  <div class="row col-md-6">
+    <%= f.input :prioridade, placeholder: 'Prioridade', input_html: { class: "assunto_prioridade_Assunto_"}, wrapper_html: {class: 'col-md-8'}%>
+    <%= f.association :categoria, label_method: :descricao, input_html: { class: "assunto_categoria_Assunto_"}, wrapper_html: {class: 'col-md-8'} %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.button :submit, 'Adicionar assunto', class: 'btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

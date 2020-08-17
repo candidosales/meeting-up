@@ -1,0 +1,19 @@
+<h1>Notificação de agendamento de nova reunião</h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+
+<br />
+Olá, <strong><%= @convite.destinatario.nome %></strong>
+<br />
+
+Uma nova reunião do fórum <strong><%= @reuniao.forum['nome'] %></strong> <br />
+foi agendada para o dia <strong><%= @reuniao.data.strftime("%d/%m/%Y %H:%M") %></strong> e <br />
+você foi convidado com a função <strong><%= @convite.funcao.text %> </strong>. <br />
+
+<% if !@convite.destinatario.tipo.convidado? %>
+	Para confirmar sua presença e saber mais detalhes sobre a reunião, <br />
+	acesse este <%= link_to "link", convite_url(@convite) %>.
+<% end %>
+
+<br />
+<br />
+<p>MeetingUP</p>

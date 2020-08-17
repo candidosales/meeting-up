@@ -1,0 +1,41 @@
+<div class="modal fade" id="compartilhar-ata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="panel panel-warning">
+		        <div class="panel-heading">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		            <h4 class="modal-title" id="myModalLabel">Compartilhar ata da reunião</h4>
+		        </div>
+        <%= simple_form_for reuniao,
+              url: compartilhar_ata_forum_reuniao_path(@forum, reuniao),
+              method: "POST", remote: true, html: {role: "form" } do |f| %>
+				  <div class="panel-body">
+					  <div class="row">
+					  	<%= f.error_notification %>
+
+              <%= f.input :emails do %>
+                <%= text_field_tag :emails, '', class: 'form-control' %>
+                <span class="help-block">Digite emails separados por virgulas.</span>
+              <% end %>
+					  </div>
+
+				  </div>
+				  <div class="panel-footer">
+            <%= f.button :submit, 'Compartilhar', class: 'btn btn-primary',
+                  data: {disable_with: 'Enviando ata ...'}  %>
+
+					  <%= link_to t('.cancel', :default => t("helpers.links.cancel")), '#', :class => 'btn btn-outline btn-default', data: {dismiss: 'modal'}  %>
+				  </div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+     $("#emails").select2({
+        tags: <%= reuniao.forum.participantes.map(&:email).to_json.html_safe %>,
+        tokenSeparators: [","]});
+  </script>
+<% end %>

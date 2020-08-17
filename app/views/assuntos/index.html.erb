@@ -1,0 +1,130 @@
+<%- model_class = Assunto -%>
+<% content_for :title_page do %>
+  <%=t '.title', :default => model_class.model_name.human.pluralize %>
+<% end %>
+
+<div class="row">
+    <div class="col-lg-12">
+      <%= link_to t('.new', :default => t("assuntos.new.title")), new_forum_assunto_path(), :class => "btn btn-success pull-right" %>
+
+    </div>
+</div>
+<br/>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+      <%= form_tag forum_assuntos_path, :method => 'get', role: 'form', class: 'simple_form'  do %>
+        <div class="row">
+          <div class= "form-group col-md-4">
+             <%= label_tag(:por_descricao, "Descrição:", class: 'control-label') %>
+             <div>
+              <%= text_field_tag :por_descricao, params[:por_descricao],  class: 'form-control' %>
+             </div>
+          </div>
+            
+          <div class='form-group col-md-4'>
+           <%= label_tag(:with_prioridade, "Prioridade:", class: 'control-label') %>
+           <div>
+             <%= select_tag :with_prioridade, options_for_select(Assunto.prioridade.options, params[:with_prioridade]), prompt: 'Todos', class: 'form-control' %>
+           </div>
+          </div>
+          <div class='form-group col-md-4'>
+           <%= label_tag(:with_status, "Status:", class: 'control-label') %>
+           <div>
+             <%= select_tag :with_status, options_for_select(Assunto.status.options, params[:with_status]), prompt: 'Todos', class: 'form-control' %>
+           </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class='form-group col-md-4'>
+           <%= label_tag(:origem_assunto, "Tipo:", class: 'control-label') %>
+           <div>
+             <%= select_tag :origem_assunto, options_for_select([['Interno', 'interno'], ['Externo', 'externo'], ['Encaminhado', 'encaminhado']], params[:origem_assunto]), prompt: 'Todos', class: 'form-control' %>
+           </div>
+          </div>
+
+          <div class='form-group col-md-4'>
+           <%= label_tag(:por_forum_origem, "Fórum origem:", class: 'control-label') %>
+           <div>
+             <%= select_tag :por_forum_origem, options_for_select(Forum.all.order(nome: :asc).map { |forum| [forum.nome, forum.id] }, params[:por_forum_origem]), prompt: 'Todos', class: 'form-control' %>
+           </div>
+          </div>
+
+          <div class='form-group col-md-4'>
+           <%= label_tag(:por_forum_destino, "Fórum destino:", class: 'control-label') %>
+           <div>
+             <%= select_tag :por_forum_destino, options_for_select(Forum.all.order(nome: :asc).map { |forum| [forum.nome, forum.id] }, params[:por_forum_destino]), prompt: 'Todos', class: 'form-control' %>
+           </div>
+          </div>
+
+        </div>
+
+        <div clas="row">
+          <%= submit_tag "Procurar", :nome => nil, :class => 'btn btn-primary' %>
+        </div>
+      <% end %>
+  </div>
+
+  <div class="panel">
+    <!-- <div class="panel-heading">  -->
+    <!--/div-->
+    <div class="panel-body">
+      <br/>
+      <%= page_entries_info @assuntos %>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th> Código </th>
+              <th> Descrição </th>
+              <th> Prioridade </th>
+              <th> Status </th>
+              <th> Categoria </th>
+              <th> Fórum origem </th>
+              <th> Fórum destino </th>
+              <th> Opções </th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            <% @assuntos.each do |a| %>
+              <tr>
+                <td><%= a.id %></td>
+                <td><%= link_to a.descricao, forum_assunto_path(@forum, a) %></td>
+                <td><%= a.prioridade_text %></td>
+                <td><%= a.status_text %></td>
+                <td>
+                  <% unless a.categoria.nil? %>
+                    <%= a.categoria.descricao %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= a.forum.try(:nome) %>
+                </td>
+                <td>
+                  <%= a.forum_destino.try(:nome) %>
+                </td>
+                <td>
+                  <% if current_user == a.usuario %>
+                     <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                                edit_forum_assunto_path(@forum, a) %>
+                  <% end %>
+
+                  <%if a.file? %>
+                    | <%= link_to 'Download', :action => 'download_file', :id => a.id  %>
+                  <% end %>
+
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>  
+  </div>
+  <div class="panel-footer">
+    <%= paginate @assuntos %>
+  </div>
+</div>
+

@@ -1,0 +1,39 @@
+# == Schema Information
+#
+# Table name: eventos
+#
+#  id               :integer          not null, primary key
+#  titulo           :string(255)
+#  data_inicial     :datetime
+#  data_final       :datetime
+#  forum_id         :integer
+#  coordenador_id   :integer
+#  redator_id       :integer
+#  controlador_id   :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  local_id         :integer
+#  periodicidade_id :integer
+#  status           :string(255)
+#  user_id          :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  titulo: MyString
+  dataInicial: 2014-03-11 23:07:39
+  dataFinal: 2014-03-11 23:07:39
+  forum_id: 
+  coordenador: 
+  redator_id: 
+  controladortempo_id: 
+
+two:
+  titulo: MyString
+  dataInicial: 2014-03-11 23:07:39
+  dataFinal: 2014-03-11 23:07:39
+  forum_id: 
+  coordenador: 
+  redator_id: 
+  controladortempo_id: 

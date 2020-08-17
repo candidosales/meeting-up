@@ -1,0 +1,147 @@
+<% content_for :title_page do %>
+<%=t "Encaminhamento" %>
+<%end%>
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+  <div class="panel-body">
+
+    	<p>
+        <strong>Código:</strong>
+        <%= @encaminhamento.codigo %>
+      </p>
+
+      <p>
+        <strong>Assunto que originou:</strong>
+        <%= @encaminhamento.assunto.descricao %>
+      </p>
+
+      <p>
+        <strong>Prazo:</strong>
+        <%= l @encaminhamento.try :previsao %>
+      </p>
+
+
+      <p>
+        <strong>Duração:</strong>
+        <% if @encaminhamento.concluido? %>
+          <%= distance_of_time_in_words(@encaminhamento.created_at, @encaminhamento.data_conclusao) %>
+          <% else %>
+            Em andamento
+          <% end %> 
+      </p>
+
+       <p>
+        <strong>Status:</strong>
+        <%= @encaminhamento.status_text %>
+      </p>
+      
+      <% unless @encaminhamento.pai.nil? %>
+        <p>
+          <strong>Encaminhamento Original:</strong>
+
+          <%= link_to @encaminhamento.pai.codigo, controller: "encaminhamentos", action: "show", id: @encaminhamento.pai %>
+        </p>
+      <% end %>
+
+      <p>
+        <strong>Detalhamento:</strong>
+        <%= @encaminhamento.descricao %>
+      </p>
+
+      <% unless @encaminhamento.encs_filhos.empty? %>
+        <h3> Encaminhamentos derivados </h3>
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Descrição</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+            <tbody>
+            <% @encaminhamento.encs_filhos.each do |f| %>
+              <tr>
+                <td><%= f.codigo %></td>
+                <td><%= f.descricao %></td>
+                <td><%= l f.created_at %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+      
+      <% unless @encaminhamento.notas.empty? %>
+        <h3>Observações</h3>
+        
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Usuário</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @encaminhamento.notas.each do |n| %>
+              <tr>
+                <td><%= n.descricao %></td>
+                <td><%= n.usuario.nome %></td>
+                <td><%= l n.created_at %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %> 
+
+      <h3>Destinatário(s)</h3>
+
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Nome</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @encaminhamento.users.each do |u| %>
+            <tr>
+              <td><%= u.nome %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+     <h3>Histórico</h3>
+
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Situação</th>
+            <th>Motivo</th>
+            <th>Usuário</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @encaminhamento.situacoes.each do |s| %>
+            <tr>
+              <td><%= s.descricao %></td>
+              <td><%= s.motivo %></td>
+              <td><%= s.user.nome %></td>
+              <td><%= l s.data %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+  
+  </div>	
+  
+  <div class="panel-footer">
+    
+	  <%= link_to t('.back', :default => t("helpers.links.back")), forum_encaminhamentos_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+</div>

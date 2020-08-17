@@ -1,0 +1,35 @@
+# == Schema Information
+#
+# Table name: convites
+#
+#  id               :integer          not null, primary key
+#  data_confirmacao :datetime
+#  data_recusa      :datetime
+#  mensagem         :text
+#  reuniao_id       :integer
+#  user_id          :integer
+#  status           :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  funcao           :string(255)
+#  destinatario_id  :integer
+#  motivo_recusa    :text
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  data_confirmacao: 2014-04-22 09:27:28
+  data_recusa: 2014-04-22 09:27:28
+  mensagem: MyText
+  reuniao_id: 
+  user_id: 
+  status: MyString
+
+two:
+  data_confirmacao: 2014-04-22 09:27:28
+  data_recusa: 2014-04-22 09:27:28
+  mensagem: MyText
+  reuniao_id: 
+  user_id: 
+  status: MyString

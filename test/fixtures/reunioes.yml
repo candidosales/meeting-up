@@ -1,0 +1,42 @@
+# == Schema Information
+#
+# Table name: reunioes
+#
+#  id               :integer          not null, primary key
+#  data             :datetime
+#  status           :string(255)
+#  datacancelamento :datetime
+#  created_at       :datetime
+#  updated_at       :datetime
+#  local_id         :integer
+#  evento_id        :integer
+#  prazo_notificar  :date
+#  titulo           :string(255)
+#  forum_id         :integer
+#  inicio           :datetime
+#  fim              :datetime
+#  user_id          :integer
+#  data_antiga      :datetime
+#  codigo           :string(255)
+#  tipo             :string(255)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  data: 2014-02-16 22:06:32
+  coordenador_id: 
+  redator_id: 
+  controlador_id: 
+  status: MyString
+  string: MyString
+  datacancelamento: 2014-02-16 22:06:32
+
+two:
+  data: 2014-02-16 22:06:32
+  coordenador_id: 
+  redator_id: 
+  controlador_id: 
+  status: MyString
+  string: MyString
+  datacancelamento: 2014-02-16 22:06:32

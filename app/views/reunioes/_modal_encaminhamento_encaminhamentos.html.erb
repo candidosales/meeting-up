@@ -1,0 +1,32 @@
+<%= simple_form_for [@forum, Encaminhamento.new(pai: encaminhamento, reuniao: @reuniao, assunto: encaminhamento.assunto)], html: {role: "form"}, data: {remote: true} do |f| %>
+  <div id="create-encaminhamento_Assunto_<%= encaminhamento.assunto.id %>_Encaminhamento_<%=encaminhamento.id %>_-messages" class="alert alert-danger"  style="display: none">
+    <p>Por favor, verifique os erros antes de continuar:</p>
+    <ul></ul>
+  </div>
+  <div class="row">
+    <%= f.hidden_field :pai_id %>
+    <%= f.hidden_field :reuniao_id %>
+    <%= f.hidden_field :assunto_id %>
+    <%= f.input :descricao, as: :text, label: false, placeholder: 'Adicionar encaminhamento',
+          input_html: { class: "autoresize encaminhamento_descricao_Assunto_#{encaminhamento.assunto.id}_Encaminhamento_#{encaminhamento.id}" },
+          wrapper_html: {class: 'col-md-10', style: 'margin-top: 10px'}  %>
+  </div>
+  <div class="row">
+    <%= f.association :users, label: 'Responsável (is)', collection: buscar_participantes(@forum), label_method: :nome, wrapper_html: {class: 'col-md-6'}, input_html: {class: "select2-users encaminhamento_usuarios_Assunto_#{encaminhamento.assunto.id}_Encaminhamento_#{encaminhamento.id}"} %>
+    <%= f.input :previsao, label: "Prazo", as: :string, wrapper_html: {class: 'col-md-4'}, mask: :date,
+          input_html: { class: "encaminhamento_previsao_Assunto_#{encaminhamento.assunto.id}_Encaminhamento_#{encaminhamento.id}" }%>
+  </div>  
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.button :submit, 'Adicionar encaminhamento', class: 'btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+<br>
+
+<div class="row">
+  <div id="encaminhamentos-Assunto_<%= encaminhamento.assunto.id %>_Encaminhamento_<%= encaminhamento.id %>" class="col-md-12">
+    <%= render encaminhamento.encs_filhos %>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+  <div class="panel-body">
+      <p>
+      	<strong>Título:</strong>
+      	<%= @reuniao.titulo %>
+      </p>
+	
+      <p>
+      	<strong>Data:</strong>
+      	<%= l @reuniao.data %>
+      </p>
+
+      <hr>
+
+      <hr>
+
+    <p>
+      <strong>Assuntos desta reunião:</strong>
+    </p>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Detalhamento</th>
+           <th>Categoria</th>
+	         <th>Prioridade</th>	
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @reuniao.assuntos.each do |assunto| %>
+          <tr>
+            <td><%= assunto.descricao %></td>
+            <td><%= assunto.detalhamento %></td>
+            <% if assunto.categoria != nil %>
+              <td><%= assunto.categoria.descricao %></td>
+            <%else%>
+              <td></td>
+            <%end%>  
+	          <td><%= assunto.prioridade %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br/>
+
+    <hr>
+
+
+    <br/>
+
+    <hr>  
+
+  </div>
+  <div class="panel-footer">
+    <%= link_to t('.voltar', :default => t("helpers.links.voltar")), forum_reunioes_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+</div>

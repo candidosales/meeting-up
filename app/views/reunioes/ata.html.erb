@@ -1,0 +1,166 @@
+<% content_for :title_page do %>
+  Ata - <%= @reuniao.titulo %>
+
+  <%= link_to icon(:download, 'Download'),
+    ata_forum_reuniao_path(@forum, @reuniao, format: :pdf), class: 'btn btn-success' %>
+
+  <% if current_user == @forum.coordenador %>  
+     <%= link_to icon(:share, 'Compartilhar por email'), '#compartilhar-ata',
+    class: 'btn btn-primary', data: {toggle: 'modal', target: '#compartilhar-ata'} %>
+  <% end %>
+  
+<% end %>
+
+
+<%= render 'compartilhar_ata', reuniao: @reuniao %>
+
+<table class="table table-bordered table-striped table-condensed">
+  <thead>
+    <tr>
+      <th>Data:</th>
+      <th>Local:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= l(@reuniao.inicio) rescue nil %> - <%= l(@reuniao.fim) rescue nil %></td>
+      <td><%= @reuniao.local %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Funções</h3>
+
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+    <td style="width: 20%">Coordenador</td>
+    <td>
+      <% unless @reuniao.convite_coordenador.nil? %>
+        <%= @reuniao.convite_coordenador.try :destinatario %>
+        <%= @reuniao.convite_coordenador.status.confirmado? ? " (Presente)" : " (Ausente)" %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>Redator</td>
+    <td>
+      <% unless @reuniao.convite_redator.nil? %>
+        <%= @reuniao.convite_redator.try :destinatario %>
+        <%= @reuniao.convite_redator.status.confirmado? ? " (Presente)" : " (Ausente)" %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>Controlador</td>
+    <td>
+      <% unless @reuniao.convite_controlador.nil? %>
+        <%= @reuniao.convite_controlador.try :destinatario %>
+        <%= @reuniao.convite_controlador.status.confirmado? ? " (Presente)" : " (Ausente)" %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<h3>Participantes</h3>
+
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+    <td style="width: 20%">Presentes</td>
+    <td>
+      <ol>
+        <%= content_tag_for :li, @reuniao.convites_participantes_presentes  do |participante| %>
+          <%= participante.destinatario.nome %>
+        <% end %>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 20%">Ausentes</td>
+     <td>
+      <ol>
+        <%= content_tag_for :li, @reuniao.convites_participantes_ausentes  do |participante| %>
+          <%= participante.destinatario.nome %>
+        <% end %>
+      </ol>
+    </td>
+  </tr>
+</table>
+
+<h3>Convidados</h3>
+
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+    <td style="width: 20%">Presentes</td>
+    <td>
+      <ol>
+        <%= content_tag_for :li, @reuniao.convites_convidados_presentes  do |convidado| %>
+          <%= convidado.destinatario.nome %>
+        <% end %>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 20%">Ausentes</td>
+     <td>
+      <ol>
+        <%= content_tag_for :li, @reuniao.convites_convidados_ausentes  do |convidado| %>
+          <%= convidado.destinatario.nome %>
+        <% end %>
+      </ol>
+    </td>
+  </tr>
+</table>
+
+
+<h3>Assuntos</h3>
+
+<table class="table table-bordered table-striped table-condensed">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Pauta</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= content_tag_for :tr, @reuniao.assuntos do |assunto| %>
+   <td>
+    <%= assunto.id %>
+  </td>
+    <td>
+      <%= assunto %><br> <strong>Proponente:</strong> <%= assunto.usuario %>
+    </td>
+    <td>
+      <ul>
+        <%= content_tag_for :li, assunto.notas do |nota| %>
+          <%= nota %>
+        <% end %>
+      </ul>
+    </td>
+  <% end %>
+  </tbody>
+</table>
+
+<h3>Encaminhamentos</h3>
+
+<table class="table table-bordered table-striped table-condensed">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Código assunto</th>
+      <th>Descrição</th>
+      <th>Responsável</th>
+      <th>Prazo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= content_tag_for :tr, @reuniao.encaminhamentos do |encaminhamento| %>
+      <td><%= encaminhamento.codigo %></td>
+      <td><%= encaminhamento.assunto.id %></td>
+      <td><%= encaminhamento %></td>
+      <td><%= encaminhamento.users.map(&:to_s).to_sentence %></td>
+      <td><%= l(encaminhamento.previsao) rescue nil %></td>
+    <% end %>
+  </tbody>
+</table>
+

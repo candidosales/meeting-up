@@ -1,0 +1,45 @@
+# == Schema Information
+#
+# Table name: assuntos
+#
+#  id                   :integer          not null, primary key
+#  descricao            :string(255)
+#  detalhamento         :text
+#  resumo               :text
+#  decisao              :text
+#  discutido            :boolean
+#  created_at           :datetime
+#  updated_at           :datetime
+#  categoria_id         :integer
+#  arquivo_file_name    :string(255)
+#  arquivo_content_type :string(255)
+#  arquivo_file_size    :integer
+#  arquivo_updated_at   :datetime
+#  forum_id             :integer
+#  usuario_id           :integer
+#  prioridade           :integer
+#  forum_destino_id     :integer
+#  status               :integer
+#  situacoes_id         :integer
+#  data_conclusao       :datetime
+#  pai_id               :integer
+#  file                 :string(255)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  descricao: MyString
+  detalhamento: MyText
+  resumo: MyText
+  decisao: MyText
+  discutido: false
+  reuniao_id: 
+
+two:
+  descricao: MyString
+  detalhamento: MyText
+  resumo: MyText
+  decisao: MyText
+  discutido: false
+  reuniao_id: 

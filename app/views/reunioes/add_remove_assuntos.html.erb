@@ -1,0 +1,80 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+      <%= simple_form_for [@forum, @reuniao], html: {role: "form"} do |f| %>
+        <div class="panel-body">
+            <%= f.error_notification %>
+            <%= f.input :titulo, :as => :hidden %>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="row">
+                <h3 class="panel-title col-md-6" style="padding-top:10px"><strong>Assuntos desta reunião</strong></h3>
+                <%= link_to 'Adicionar assunto', '#', data:{toggle: "modal", target: "#add-assunto-confirmar"}, class: 'btn btn-default btn-success'  %>
+              </div>
+            </div>
+            <div class="panel-body">
+              <h3> Internos </h3>
+              <table id="reuniao-assuntos" class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Descrição</th>
+                    <th>Detalhamento</th>
+                    <th>Categoria</th>
+                    <th>Prioridade</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% Assunto.interno(@forum).disponiveis.order(prioridade: :asc).each do |assunto| %>
+                    <tr>
+                      <td><%= check_box_tag 'reuniao[assunto_ids][]', assunto.id, @reuniao.assuntos.include?(assunto) %></td>
+                      <td><%= assunto.descricao %></td>
+                      <td><%= assunto.detalhamento %></td>
+                      <td><%= assunto.categoria.try :descricao %></td>
+                      <td><%= assunto.prioridade_text %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+
+              <% assuntos_indicados = Assunto.externo(@forum).disponiveis.order(prioridade: :asc) %>
+              <% if assuntos_indicados.any? %>
+                <h3> Indicados </h3>
+                <table id="reuniao-assuntos-indicados" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Forum solicitante</th>
+                      <th>Descrição</th>
+                      <th>Detalhamento</th>
+                      <th>Categoria</th>
+                      <th>Prioridade</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% assuntos_indicados.each do |assunto| %>
+                      <tr>
+                        <td><%= check_box_tag 'reuniao[assunto_ids][]', assunto.id, @reuniao.assuntos.include?(assunto) %></td>
+                        <td><%= assunto.forum.nome %></td>
+                        <td><%= assunto.descricao %></td>
+                        <td><%= assunto.detalhamento %></td>
+                        <td><%= assunto.categoria.try :descricao %></td>
+                        <td><%= assunto.prioridade_text %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+        <div class="panel-footer">
+            <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+            <%= link_to t('.cancel', :default => t("helpers.links.cancel")), forum_reunioes_path, :class => 'btn btn-outline btn-default' %>
+        </div>
+      <% end %>      
+</div>
+<%= render 'modal_assunto_confirmar' %>

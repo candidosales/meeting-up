@@ -1,0 +1,21 @@
+<% if admin_signed_in? %>
+  <ul class="nav nav-sidebar">
+    <li><%= link_to 'Cargos', cargos_path %></li>
+    <li><%= link_to 'Centro de Custo', setores_path %></li>
+    <li><%= link_to 'Locais', locais_path %></li>
+    <li><%= link_to 'Categorias', categorias_path %></li>
+    <li><%= link_to 'Fóruns', foruns_path %></li>
+    <li><%= link_to 'Usuários', users_path %></li>
+  </ul>
+<% end %> 
+
+<% if user_signed_in? %>
+  <% if forum_context? %>
+    <ul class="nav nav-sidebar">
+      <li><%= link_to 'Fórum', forum_path(current_forum_id) %></li>
+      <li><%= link_to 'Reuniões', forum_reunioes_path(current_forum_id) %></li>
+      <li><%= link_to 'Assuntos', forum_assuntos_path(current_forum_id) %></li>
+      <li><%= link_to 'Encaminhamentos', forum_encaminhamentos_path(current_forum_id) %></li>
+    </ul>
+  <% end %>
+<% end %>

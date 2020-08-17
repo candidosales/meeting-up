@@ -1,0 +1,12 @@
+<% div_id = "create-encaminhamento_Assunto_#{params['encaminhamento']['assunto_id']}_Encaminhamento_#{params['encaminhamento']['pai_id']}" %>
+
+<% if @encaminhamento.errors.empty? %>
+	$("#<%= div_id %>-messages").hide()
+	$('.encaminhamento_descricao_Assunto_<%= @encaminhamento.assunto_id %>_Encaminhamento_<%= @encaminhamento.pai_id %>').val('').blur()
+	$(".encaminhamento_usuarios_Assunto_<%= @encaminhamento.assunto_id %>_Encaminhamento_<%= @encaminhamento.pai_id %>").attr('selectedIndex', '-1').find("option:selected").prop("selected", false).change()
+	$('.encaminhamento_previsao_Assunto_<%= @encaminhamento.assunto_id %>_Encaminhamento_<%= @encaminhamento.pai_id %>').val('').blur()
+	$('#encaminhamentos-Assunto_<%= @encaminhamento.assunto_id %>_Encaminhamento_<%= @encaminhamento.pai_id %>').prepend('<%= j render(@encaminhamento) %>');
+<% else %>
+	$("#<%= div_id %>-messages").show()
+	$('#<%= div_id %>-messages ul').html('<%= j(@encaminhamento.errors.full_messages.map{|e| content_tag(:li, e) }.join('').html_safe ) %>')
+<% end %>

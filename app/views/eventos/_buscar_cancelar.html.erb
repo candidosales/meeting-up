@@ -1,0 +1,30 @@
+<div class="modal fade" id="cancelar-evento-<%=evento.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="panel panel-danger">
+		        <div class="panel-heading">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		            <h4 class="modal-title" id="myModalLabel">Cancelar Agendamento</h4>
+		        </div>
+					<%= simple_form_for :buscar_cancelar, 
+						:url => confirmar_cancelamento_forum_evento_path(@forum,evento), 
+						:method => "PATCH", html: {role: "form", class: "form-cancelar-evento" } do |f| %>
+					  <div class="panel-body">
+						  <%= f.error_notification %>
+
+						  <div class="row">
+						   <%= f.input :motivo, label: 'Motivo', as: :text, wrapper_html: {class: 'col-md-10'}, input_html: {rows: 3, style: 'width: 100%'} %>
+						  </div>
+
+					  	<div class="panel-footer">
+						  <%= f.button :submit, t('.save', :default => t("helpers.links.save")),
+						  disabled: true, class: 'btn btn-primary', data: {disable_with: 'Cancelando agendamento...'}%>
+
+						  <%= link_to t('.cancel', :default => t("helpers.links.cancel")), '#', :class => 'btn btn-outline btn-default', data: {dismiss: 'modal'} %>
+				  		</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+	

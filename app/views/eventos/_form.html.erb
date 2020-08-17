@@ -1,0 +1,106 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+
+<%= simple_nested_form_for [@forum, @evento], html: {role: "form"} do |f| %>
+  <div class="panel-body">
+    <%= f.error_notification %>
+
+    <div class="row">
+      <%= f.input :titulo, placeholder: 'Título', wrapper_html: {class: 'col-md-5'} %>
+      
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Agendamento</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <%= f.input :data_inicial_dia, label: 'Data inicial', wrapper_html: {class: 'col-md-3'}, as: :calendar %>
+          <%= f.input :data_inicial_hora,label: 'Início', wrapper_html: {class: 'col-md-2'}, mask: :hour %>
+          <%= f.input :data_final_hora, label: 'Fim', wrapper_html: {class: 'col-md-2'}, mask: :hour %>
+          <%= f.input :data_final_dia, label: 'Data final', wrapper_html: {class: 'col-md-3'}, as: :calendar %>
+        </div>
+      </div>
+    </div>
+
+<!--      <label class="row">
+        Repetir
+        <input class="boolean optional" id="repetir_id" name="repetir" type="checkbox">
+     </label>
+ -->
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Periodicidade</h3>
+    </div>
+    <div class="panel-body">
+     <div id ="periodicidade_field">
+      <%= f.fields_for :periodicidade do |p| %>
+        
+        <div class="row">
+          <%= p.input :repeticao, label: "Repetição", wrapper_html: {class: 'col-md-3'} %>
+        </div>
+        <div class="row">
+          <%= p.input :repete_cada, label: "Repete a cada", wrapper_html: {class: 'col-md-3'}, input_html: {class:'number'}, inline_label: 'Dia'%>
+          
+        </div>
+        <div class="row">
+          <%= p.input :frequencia, as: :check_boxes, label: "Repete", wrapper_html: {class: 'col-md-3'}, wrapper: :vertical_radio_and_checkboxes %>      
+        </div>
+
+      <% end %>
+    </div></div></div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Lembretes</h3>
+    </div>
+    <div class="panel-body">
+      <%= f.fields_for :lembretes do |lembrete_form| %>
+        <div class="row">
+         <%= lembrete_form.input :tipo, include_blank: false, wrapper_html: {class: 'col-md-2'} %>
+         <%= lembrete_form.input :intervalo,  wrapper_html: {class: 'col-md-2'} %>
+         <%= lembrete_form.input :periodo, include_blank: false, wrapper_html: {class: 'col-md-2'} %>
+        </div>
+        <%= lembrete_form.link_to_remove "Excluir lembrete", class: 'btn btn-danger' %>
+        <hr>
+      <% end %> 
+      <p><%= f.link_to_add "Novo lembrete", :lembretes, class: 'btn btn-primary' %></p>  
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"></h3>
+    </div>
+    <div class="panel-body">
+
+    <div class="row">  
+      <%= f.association :local, label_method: :descricao, wrapper_html: {class: 'col-md-3'}, input_html: {class: 'select2-users'} %>
+    </div>
+
+    <div class="row">  
+      <%= f.association :coordenador, collection: buscar_participantes(@forum), label_method: :nome, include_blank: false, wrapper_html: {class: 'col-md-3'}, input_html: {class: 'select2-users'} %>
+      
+      <%= f.association :controlador, collection: buscar_participantes(@forum), label_method: :nome, wrapper_html: {class: 'col-md-3'}, input_html: {class: 'select2-users'} %>
+
+      <%= f.association :redator, collection: buscar_participantes(@forum), label_method: :nome, wrapper_html: {class: 'col-md-3'}, input_html: {class: 'select2-users'} %>
+    </div>
+
+    <div class="row">
+      <%= f.association :participantes, collection: buscar_participantes(@forum), label_method: :nome, wrapper_html: {class: 'col-md-7'}, input_html: {class: 'select2-users'} %>
+    </div>  
+
+    <div class="row">
+    	<%= f.association :assuntos, collection: buscar_assuntos(@forum), label_method: :descricao, wrapper_html: {class: 'col-md-7'} , input_html: {class: 'select2-users'} %>
+    </div>	
+
+  </div></div></div>
+  <div class="panel-footer">
+      <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), forum_reunioes_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+<% end %>
+</div>

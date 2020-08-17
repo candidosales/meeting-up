@@ -1,0 +1,23 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+  </div>
+<%= simple_form_for @categoria, html: {role: "form"} do |f| %>
+  <div class="panel-body">
+	  <%= f.error_notification %>
+
+	  <div class="row">
+	    <%= f.input :descricao, placeholder: 'Descrição', wrapper_html: {class: 'col-md-6'} %>
+	  </div>
+	  <div class="row">	  
+        <%= f.association :categoria_pai, collection: buscar_cat_pai(@categoria), label_method: :descricao, wrapper_html: {class: 'col-md-6'} %>
+      </div>  
+
+
+  </div>
+  <div class="panel-footer">
+	    <%= f.button :submit, t('.save', :default => t("helpers.links.save")), class: 'btn btn-primary' %>
+	  <%= link_to t('.cancel', :default => t("helpers.links.cancel")), categorias_path, :class => 'btn btn-outline btn-default' %>
+  </div>
+<% end %>
+</div>
+	

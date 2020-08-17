@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: categorias
+#
+#  id               :integer          not null, primary key
+#  descricao        :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  categoria_pai_id :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  descricao: MyString
+  categoriapai_id: 1
+
+two:
+  descricao: MyString
+  categoriapai_id: 1

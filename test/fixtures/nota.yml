@@ -1,0 +1,22 @@
+# == Schema Information
+#
+# Table name: nota
+#
+#  id           :integer          not null, primary key
+#  descricao    :text
+#  usuario_id   :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  notable_id   :integer
+#  notable_type :string(255)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  descricao: MyString
+  usuario_id: 
+
+two:
+  descricao: MyString
+  usuario_id: 

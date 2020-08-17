@@ -1,0 +1,34 @@
+<%= simple_form_for [@forum, Assunto.new(pai: assunto, forum_destino: @forum)], html: {role: "form"}, data: {remote: true} do |f| %>
+  <div id="create-assunto_Assunto_<%= assunto.id %>-messages" class="alert alert-danger" style="display: none">
+    <p>Por favor, verifique os erros antes de continuar:</p>
+    <ul></ul>
+  </div>
+
+  <%= f.hidden_field :pai_id %>
+  <div class="row col-md-6">
+    <%= f.input :descricao, placeholder: 'Descrição', input_html: { class: "assunto_descricao_Assunto_#{assunto.id}"}, wrapper_html: {class: 'col-md-12'}%>
+
+    <%= f.input :detalhamento, placeholder: 'Detalhamento', input_html: { class: "autoresize assunto_detalhamento_Assunto_#{assunto.id}" }, wrapper_html: {class: 'col-md-12'} %>
+  </div>
+
+  <div class="row col-md-6">
+    <%= f.input :prioridade, placeholder: 'Prioridade', input_html: { class: "assunto_prioridade_Assunto_#{assunto.id}"}, wrapper_html: {class: 'col-md-5'}%>
+    <%= f.association :categoria, label_method: :descricao, input_html: { class: "assunto_categoria_Assunto_#{assunto.id}"}, wrapper_html: {class: 'col-md-7'} %>
+    <%= f.association :usuario, label: 'Proposto por', collection: buscar_participantes(@forum), label_method: :nome, include_blank: true, input_html: { class: "assunto_usuario_Assunto_#{assunto.id}"},wrapper_html: {class: 'col-md-5'} %>
+    <%= f.association :forum_destino, collection: Forum.all,  label_method: :nome, include_blank: false, input_html: { class: "assunto_forum_destino_Assunto_#{assunto.id}"}, wrapper_html: {class: 'col-md-7'} %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= f.button :submit, 'Adicionar assunto', class: 'btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+<br>
+
+<div class="row">
+  <div id="assuntos-Assunto_<%= assunto.id %>" class="col-md-12">
+    <%= render assunto.assuntos_filhos %>
+  </div>
+</div>

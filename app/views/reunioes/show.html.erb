@@ -1,0 +1,5 @@
+<% if @reuniao.pode_iniciar? || @reuniao.iniciada? %>
+	<%= render 'show_reuniao_confirmada_iniciada' %>
+<% else %>
+	<%= render 'show_default' %>
+<% end %>

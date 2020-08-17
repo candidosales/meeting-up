@@ -1,0 +1,22 @@
+<h1>Notificação de confirmação de reunião</h1> 
+<h2>Data de envio: <%= Time.now.strftime("%d/%m/%Y %H:%M") %></h2>
+<hr>
+
+<br />
+Olá, <strong><%= @convite.destinatario.nome %></strong>
+<br />
+
+A reunião do fórum <strong><%= @reuniao.forum['nome'] %></strong> <br />
+foi <strong>confirmada</strong> para o dia <strong><%= @reuniao.data.strftime("%d/%m/%Y %H:%M") %></strong> <br />
+Os seguintes assuntos serão abordados:
+<ul>
+<% @reuniao.assuntos.each do |assunto| %>
+  	<li><%= assunto.descricao %></li> 	
+<% end %>
+</ul>
+Para maiores detalhes, acesse sua dashboard.
+
+<br />
+<br />
+<hr>
+<p>MeetingUP</p>

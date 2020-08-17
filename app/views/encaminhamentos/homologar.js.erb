@@ -1,0 +1,23 @@
+$('#homologacao-encaminhamento-<%= @encaminhamento.id %>-messages').empty()
+$('#homologacao-encaminhamento-<%= @encaminhamento.id %>-messages').prepend("<%= j render 'layouts/messages' %>")
+<% if @encaminhamento.homologado %>
+$('#tab-encaminhamento-novos-encaminhamentos-<%= @encaminhamento.id %>').addClass('hide')
+$('#tab-encaminhamento-novos-encaminhamentos-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-novos-encaminhamentos-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-encaminhamento-info-encaminhamento-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-info-encaminhamento-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-encaminhamento-info-encaminhamento-<%= @encaminhamento.id %>').addClass('active')
+$('#tab-info-encaminhamento-<%= @encaminhamento.id %>').addClass('active')
+$('#tab-encaminhamento-notas-encaminhamentos-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-notas-encaminhamentos-<%= @encaminhamento.id %>').removeClass('active')
+$('#status-homologado-enc-<%= @encaminhamento.id %>').val('true')
+<% else %>
+$('#tab-encaminhamento-novos-encaminhamentos-<%= @encaminhamento.id %>').removeClass('hide')
+$('#tab-encaminhamento-novos-encaminhamentos-<%= @encaminhamento.id %>').addClass('active')
+$('#tab-novos-encaminhamentos-<%= @encaminhamento.id %>').addClass('active')
+$('#tab-encaminhamento-info-encaminhamento-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-info-encaminhamento-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-encaminhamento-notas-encaminhamentos-<%= @encaminhamento.id %>').removeClass('active')
+$('#tab-notas-encaminhamentos-<%= @encaminhamento.id %>').removeClass('active')
+$('#status-homologado-enc-<%= @encaminhamento.id %>').val('false')
+<% end %>

@@ -1,0 +1,16 @@
+<% div_id = "create-assunto_Assunto_#{params['assunto']['pai_id']}" %>
+<% if @assunto.errors.empty? %>
+  $('.assunto_descricao_Assunto_<%= @assunto.pai_id %>').val('').blur()
+  $('.assunto_detalhamento_Assunto_<%= @assunto.pai_id %>').val('').blur()
+  $('.assunto_categoria_Assunto_<%= @assunto.pai_id %>').val('').blur()
+  $('.assunto_prioridade_Assunto_<%= @assunto.pai_id %>').val('').blur()
+  $('.assunto_usuario_Assunto_<%= @assunto.pai_id %>').val('').blur()
+  $('.assunto_forum_destino_Assunto_<%= @assunto.pai_id %>').val('').blur()
+  $('#assuntos-Assunto_<%= @assunto.pai_id %>').prepend('<%= j render(@assunto) %>');
+  $('#reuniao-assuntos tbody').append("<%= j render('assunto_confirmado', assunto: @assunto) %>");
+  $('#add-assunto-confirmar').modal('hide')
+  $('#<%= div_id %>-messages').hide()
+<% else %>
+  $('#<%= div_id %>-messages').show()
+  $('#<%= div_id %>-messages ul').html('<%= j(@assunto.errors.full_messages.map{|e| content_tag(:li, e) }.join('').html_safe ) %>')
+<% end %>
